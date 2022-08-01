@@ -1,2 +1,4 @@
-# catena-x-release-deployment
-Consortia deployment configuration for Catena-X releases
+# Catena-X release deployment
+
+This repository contains configuration for deploying Catena-X releases to the Consortia environments.
+
