@@ -5,8 +5,8 @@ core:
         enabled: true
         tls:
           - hosts:
-            - portal.pre-prod.demo.catena-x.net
-            secretName: portal.pre-prod.demo.catena-x.net-tls
+            - portal-release.int.demo.catena-x.net
+            secretName: tls-secret
         hosts:
           - host: portal.pre-prod.demo.catena-x.net
             paths:
@@ -17,9 +17,8 @@ core:
                     name: registration
                     port: 8080
         annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
           kubernetes.io/ingress.class: nginx
           nginx.ingress.kubernetes.io/rewrite-target: /$1
           nginx.ingress.kubernetes.io/use-regex: "true"
           nginx.ingress.kubernetes.io/enable-cors: "true"
-          nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000, https://*.pre-prod.demo.catena-x.net"
+          nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000, https://*.int.demo.catena-x.net"

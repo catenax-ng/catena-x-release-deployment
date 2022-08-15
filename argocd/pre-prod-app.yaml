@@ -6,11 +6,12 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/catenax-ng/catena-x-release-deployment'
-    path: pre-prod/chart
+    path: charts/release-deployment
     targetRevision: HEAD
     helm:
       valueFiles:
         - values.yaml
+        - values-pre-prod.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: core
