@@ -8,13 +8,14 @@ spec:
     repoURL: 'https://github.com/catenax-ng/catena-x-release-deployment'
     path: charts/release-deployment
     targetRevision: HEAD
-    helm:
-      valueFiles:
-        - values.yaml
-        - values-pre-prod.yaml
+    plugin:
+      name: argocd-vault-plugin-helm-args
+      env:
+        - name: helm_args
+          value: '-f values-pre-prod.yaml'
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: core
+    namespace: release
   syncPolicy:
     automated: {}
     syncOptions:
