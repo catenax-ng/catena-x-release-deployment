@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: core-release
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/catenax-ng/catena-x-release-deployment'
+    path: charts/release-deployment
+    targetRevision: HEAD
+    plugin:
+      name: argocd-vault-plugin-helm-args
+      env:
+        - name: helm_args
+          value: '-f values-devsecops-testing.yaml'
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: release
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
