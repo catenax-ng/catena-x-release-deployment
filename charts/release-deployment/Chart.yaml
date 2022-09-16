@@ -24,7 +24,7 @@ version: 0.1.1
 appVersion: "release-2.0"
 
 dependencies:
-  - name: cx-core
+  - name: cxcore
     alias: core
-    version: 0.1.2
-    repository: https://catenax-ng.github.io/catena-x-release
+    version: 0.1.3
+    repository: "file://../../../catena-x-release/charts/cxcore"
