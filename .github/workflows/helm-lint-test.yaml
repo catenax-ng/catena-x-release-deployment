@@ -45,4 +45,4 @@ jobs:
       # install the chart to the kind cluster and run helm test
       # define charts to test with the --charts parameter
       - name: Run chart-testing (install)
-        run: ct install --charts charts/k8s-helm-example --config charts/chart-testing-config.yaml
+        run: ct install --charts charts/release-deployment --config charts/chart-testing-config.yaml
