@@ -15,7 +15,7 @@ spec:
           value: '-f values-devsecops-testing.yaml'
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: release
+    namespace: test-release
   syncPolicy:
     automated: {}
     syncOptions:
