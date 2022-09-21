@@ -1,5 +1,6 @@
 core:
   portal:
+    enabled: true
     ingress:
       enabled: true
       annotations:
@@ -52,7 +53,8 @@ core:
       enabled: true
       name: "demonstrator"
       image: "ghcr.io/catenax-ng/product-demonstrator:latest"
-  #portal-backend:
+  portal-backend:
+    enabled: true
   #  ingress:
   #    enabled: true
   #    annotations:
