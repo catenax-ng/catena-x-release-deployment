@@ -54,7 +54,7 @@ core:
       name: "demonstrator"
       image: "ghcr.io/catenax-ng/product-demonstrator:latest"
   portal-backend:
-    enabled: true
+    enabled: false
   #  ingress:
   #    enabled: true
   #    annotations:
