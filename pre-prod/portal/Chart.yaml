@@ -1,0 +1,17 @@
+apiVersion: v2
+name: portal
+description: PRE-PROD deployment of the portal release
+type: application
+version: 0.1.0
+appVersion: "0.5.4"
+
+dependencies:
+  - name: portal
+    alias: portal-frontend
+    version: 0.5.4
+    condition: portal-frontend.enabled
+    repository: "https://catenax-ng.github.io/product-portal-cd/"
+  - name: portal-backend
+    version: 0.5.4
+    condition: portal-backend.enabled
+    repository: "https://catenax-ng.github.io/product-portal-cd/"

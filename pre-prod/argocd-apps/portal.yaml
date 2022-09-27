@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: portal
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/catenax-ng/catena-x-release-deployment'
+    path: pre-prod/portal
+    targetRevision: HEAD
+    plugin:
+      name: argocd-vault-plugin-helm
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: portal
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
