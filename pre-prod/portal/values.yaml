@@ -56,5 +56,111 @@ portal-backend:
   enabled: false
 sharedidp:
   enabled: true
+  keycloak:
+    extraVolumes:
+      - name: themes
+        emptyDir: {}
+      - name: realms
+        emptyDir: {}
+      - name: realm-secrets
+        secret:
+          secretName: secret-sharedidp-realms
+    extraVolumeMounts:
+      - name: themes
+        mountPath: "/opt/bitnami/keycloak/themes/catenax-shared"
+      - name: realms
+        mountPath: "/realms"
+      - name: realm-secrets
+        mountPath: "/secrets"
+    initContainers:
+      - name: import
+        image: ghcr.io/catenax-ng/product-portal-iam_iam-import-pre-prod:v0.5.3
+        imagePullPolicy: Always
+        command:
+          - sh
+        args:
+          - -c
+          - |
+            echo "Copying themes..."
+            cp -R /import/themes/catenax-shared/* /themes
+            echo "Copying realms..."
+            cp -R /import/catenax-shared/realms/* /realms
+            echo "Copying realms-secrets..."
+            cp /secrets/* /realms
+        volumeMounts:
+        - name: themes
+          mountPath: "/themes"
+        - name: realms
+          mountPath: "/realms"
+        - name: realm-secrets
+          mountPath: "/secrets"
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hostname: sharedidp.pre-prod.demo.catena-x.net
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS
+        nginx.ingress.kubernetes.io/cors-allow-origin: https://sharedidp.pre-prod.demo.catena-x.net, http://localhost:3000
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+        nginx.ingress.kubernetes.io/proxy-buffering: "on"
+        nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+      tls: true
 centralidp:
   enabled: true
+  keycloak:
+    extraVolumes:
+      - name: themes
+        emptyDir: {}
+      - name: realms
+        emptyDir: {}
+      - name: realm-secrets
+        secret:
+          secretName: secret-centralidp-realms
+    extraVolumeMounts:
+      - name: themes
+        mountPath: "/opt/bitnami/keycloak/themes/catenax-central"
+      - name: realms
+        mountPath: "/realms"
+      - name: realm-secrets
+        mountPath: "/secrets"
+    initContainers:
+      - name: import
+        image: ghcr.io/catenax-ng/product-portal-iam_iam-import-pre-prod:latest
+        imagePullPolicy: Always
+        command:
+          - sh
+        args:
+          - -c
+          - |
+            echo "Copying themes..."
+            cp -R /import/themes/catenax-central/* /themes
+            echo "Copying realms..."
+            cp -R /import/catenax-central/realms/* /realms
+            echo "Copying realms-secrets..."
+            cp /secrets/* /realms
+        volumeMounts:
+        - name: themes
+          mountPath: "/themes"
+        - name: realms
+          mountPath: "/realms"
+        - name: realm-secrets
+          mountPath: "/secrets"
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hostname: centralidp.pre-prod.demo.catena-x.net
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS
+        nginx.ingress.kubernetes.io/cors-allow-origin: https://centralidp.pre-prod.demo.catena-x.net, http://localhost:3000
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+        nginx.ingress.kubernetes.io/proxy-buffering: "on"
+        nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+      tls: true
