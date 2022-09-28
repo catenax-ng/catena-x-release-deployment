@@ -54,3 +54,7 @@ portal-frontend:
 #    image: "ghcr.io/catenax-ng/product-demonstrator:latest"
 portal-backend:
   enabled: false
+sharedidp:
+  enabled: true
+centralidp:
+  enabled: true
