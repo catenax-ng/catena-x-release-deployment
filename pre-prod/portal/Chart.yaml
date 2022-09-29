@@ -12,14 +12,17 @@ dependencies:
     condition: portal-frontend.enabled
     repository: "https://catenax-ng.github.io/product-portal-cd/"
   - name: portal-backend
+    alias: portal-backend
     version: 0.5.4
     condition: portal-backend.enabled
     repository: "https://catenax-ng.github.io/product-portal-cd/"
   - name: centralidp
+    alias: centralidp
     version: 0.5.3
     condition: centralidp.enabled
     repository: "https://catenax-ng.github.io/product-portal-iam/"
   - name: sharedidp
+    alias: sharedidp
     version: 0.5.3
     condition: sharedidp.enabled
     repository: "https://catenax-ng.github.io/product-portal-iam/"
