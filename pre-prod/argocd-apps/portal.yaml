@@ -12,7 +12,7 @@ spec:
       name: argocd-vault-plugin-helm
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: portal
+    namespace: product-portal
   syncPolicy:
     automated: {}
     syncOptions:
