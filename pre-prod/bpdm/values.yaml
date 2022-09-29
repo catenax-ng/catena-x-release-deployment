@@ -1,46 +1,47 @@
-image:
-  tag: "v2.0.0"
+bpdm:
+  image:
+    tag: "v2.0.0"
 
-springProfiles: [ ]
+  springProfiles: [ ]
 
-ingress:
-  hosts:
-    - host: partners-pool.pre-prod.demo.catena-x.net
-      paths:
-        - path: /
-          pathType: Prefix
-  tls:
-    - secretName: tls-secret
-      hosts:
-        - partners-pool.pre-prod.demo.catena-x.net
+  ingress:
+    hosts:
+      - host: partners-pool.pre-prod.demo.catena-x.net
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: tls-secret
+        hosts:
+          - partners-pool.pre-prod.demo.catena-x.net
 
-applicationSecret:
-  keycloak: <path:bpdm/data/pre-prod/pool/keycloak#credentials-secret>
-  cdq: <path:bpdm/data/pre-prod/pool/cdq#api-key>
+  applicationSecret:
+    keycloak: <path:bpdm/data/pre-prod/pool/keycloak#credentials-secret>
+    cdq: <path:bpdm/data/pre-prod/pool/cdq#api-key>
 
-applicationConfig: |
-  # auth properties
-  bpdm.security.enabled=true
-  keycloak.enabled=true
-  keycloak.auth-server-url=https://centralidp.pre-prod.demo.catena-x.net/auth
-  springdoc.swagger-ui.oauth.client-id=Cl2-CX-Portal
-  # CDQ properties
-  bpdm.cdq.enabled=true
-  bpdm.cdq.storage=af3e668806c1360498774117b6180772
-  bpdm.cdq.datasource=6218e2bd4b43902250893a54
-  # every hour at minute 0
-  bpdm.cdq.import-scheduler-cron-expr=0 0 * * * *
-  # opensearch properties
-  bpdm.opensearch.enabled=true
-  bpdm.opensearch.host=${BPDM_OPENSEARCH_HOST}
-  # every hour at minute 30
-  bpdm.opensearch.export-scheduler-cron-expr=0 30 * * * *
-  # persist properties
-  bpdm.datasource.host=${BPDM_DB_HOST}
-  spring.datasource.url=jdbc:postgresql://${bpdm.datasource.host}:5432/bpdm
-  spring.datasource.password=${BPDM_DB_PASS}
+  applicationConfig: |
+    # auth properties
+    bpdm.security.enabled=true
+    keycloak.enabled=true
+    keycloak.auth-server-url=https://centralidp.pre-prod.demo.catena-x.net/auth
+    springdoc.swagger-ui.oauth.client-id=Cl2-CX-Portal
+    # CDQ properties
+    bpdm.cdq.enabled=true
+    bpdm.cdq.storage=af3e668806c1360498774117b6180772
+    bpdm.cdq.datasource=6218e2bd4b43902250893a54
+    # every hour at minute 0
+    bpdm.cdq.import-scheduler-cron-expr=0 0 * * * *
+    # opensearch properties
+    bpdm.opensearch.enabled=true
+    bpdm.opensearch.host=${BPDM_OPENSEARCH_HOST}
+    # every hour at minute 30
+    bpdm.opensearch.export-scheduler-cron-expr=0 30 * * * *
+    # persist properties
+    bpdm.datasource.host=${BPDM_DB_HOST}
+    spring.datasource.url=jdbc:postgresql://${bpdm.datasource.host}:5432/bpdm
+    spring.datasource.password=${BPDM_DB_PASS}
 
-postgres:
-  auth:
-    postgresPassword: <path:bpdm/data/pre-prod/pool/postgresql#postgres-password>
-    password: <path:bpdm/data/pre-prod/pool/postgresql#password>
+  postgres:
+    auth:
+      postgresPassword: <path:bpdm/data/pre-prod/pool/postgresql#postgres-password>
+      password: <path:bpdm/data/pre-prod/pool/postgresql#password>
