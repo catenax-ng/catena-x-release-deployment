@@ -15,5 +15,3 @@ spec:
     namespace: product-bpdm
   syncPolicy:
     automated: {}
-    syncOptions:
-      - CreateNamespace=true
