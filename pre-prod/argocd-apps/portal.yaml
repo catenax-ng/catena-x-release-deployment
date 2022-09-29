@@ -15,5 +15,3 @@ spec:
     namespace: product-portal
   syncPolicy:
     automated: {}
-    syncOptions:
-      - CreateNamespace=true
