@@ -138,7 +138,7 @@ centralidp:
   keycloak:
     fullnameOverride: "centralidp-keycloak"
     postgresql:
-      fullnameOverride: "sharedidp-postgres"
+      fullnameOverride: "centralidp-postgres"
     extraVolumes:
       - name: themes
         emptyDir: {}
