@@ -59,6 +59,9 @@ portal-backend:
 sharedidp:
   enabled: true
   keycloak:
+    fullnameOverride: "sharedidp-keycloak"
+    postgresql:
+      fullnameOverride: "sharedidp-postgres"
     extraVolumes:
       - name: themes
         emptyDir: {}
@@ -133,6 +136,9 @@ sharedidp:
 centralidp:
   enabled: true
   keycloak:
+    fullnameOverride: "centralidp-keycloak"
+    postgresql:
+      fullnameOverride: "sharedidp-postgres"
     extraVolumes:
       - name: themes
         emptyDir: {}
