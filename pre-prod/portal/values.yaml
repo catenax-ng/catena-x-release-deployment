@@ -52,8 +52,10 @@ portal-frontend:
 #    enabled: true
 #    name: "demonstrator"
 #    image: "ghcr.io/catenax-ng/product-demonstrator:latest"
+
 portal-backend:
   enabled: false
+  
 sharedidp:
   enabled: true
   keycloak:
@@ -109,6 +111,25 @@ sharedidp:
         nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
         nginx.ingress.kubernetes.io/use-regex: "true"
       tls: true
+  secrets:
+    auth:
+      existingSecret:
+        adminpassword: "<path:portal/data/pre-prod/iam/sharedidp-keycloak#admin-password>"
+        managementpassword: "<path:portal/data/pre-prod/iam/sharedidp-keycloak#management-password>"
+    postgresql:
+      auth:
+        existingSecret:
+          postgrespassword: "<path:portal/data/pre-prod/iam/sharedidp-postgres#postgres-password>"
+          password: "<path:portal/data/pre-prod/iam/sharedidp-postgres#password>"
+          replicationPassword: "<path:portal/data/pre-prod/iam/sharedidp-postgres#replication-password>"
+    realmuser:
+      enabled: true
+      cxtestaccessuser: "<path:portal/data/pre-prod/iam/sharedidp-realms#CX-Test-Access-users-0.json>"
+      company1user: "<path:portal/data/pre-prod/iam/sharedidp-realms#Company-1-users-0.json>"
+      company2user: "<path:portal/data/pre-prod/iam/sharedidp-realms#Company-2-users-0.json>"
+      company3user: "<path:portal/data/pre-prod/iam/sharedidp-realms#Company-3-users-0.json>"
+      masteruser: "<path:portal/data/pre-prod/iam/sharedidp-realms#Company-1-users-0.json>"
+    
 centralidp:
   enabled: true
   keycloak:
@@ -164,3 +185,17 @@ centralidp:
         nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
         nginx.ingress.kubernetes.io/use-regex: "true"
       tls: true
+  secrets:
+    auth:
+      existingSecret:
+        adminpassword: "<path:portal/data/pre-prod/iam/centralidp-keycloak#admin-password>"
+        managementpassword: "<path:portal/data/pre-prod/iam/centralidp-keycloak#management-password>"
+    postgresql:
+      auth:
+        existingSecret:
+          postgrespassword: "<path:portal/data/pre-prod/iam/centralidp-postgres#postgres-password>"
+          password: "<path:portal/data/pre-prod/iam/centralidp-postgres#password>"
+          replicationPassword: "<path:portal/data/pre-prod/iam/centralidp-postgres#replication-password>"
+    realmuser:
+      enabled: true
+      cxcentraluser: "<path:portal/data/pre-prod/iam/centralidp-realms#CX-Central-users-0.json>"
