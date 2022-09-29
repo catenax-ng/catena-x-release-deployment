@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: bpdm
 spec:
-  project: default
+  project: project-bpdm
   source:
     repoURL: 'https://github.com/catenax-ng/catena-x-release-deployment'
     path: pre-prod/bpdm

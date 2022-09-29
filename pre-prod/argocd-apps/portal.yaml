@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: portal
 spec:
-  project: default
+  project: project-portal
   source:
     repoURL: 'https://github.com/catenax-ng/catena-x-release-deployment'
     path: pre-prod/portal
