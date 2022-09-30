@@ -9,3 +9,7 @@ daps:
       certMgr:
         enabled: true
         issuer: "letsencrypt-prod"
+    daps:
+      secret:
+        clientId: "<path:essential-services/data/daps-pre-prod#clientId>"
+        clientSecret: "<path:essential-services/data/daps-pre-prod#clientSecret>"
