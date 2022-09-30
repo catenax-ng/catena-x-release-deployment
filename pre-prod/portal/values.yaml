@@ -103,11 +103,14 @@ portal-backend:
   
   postgresql:
     fullnameOverride: "portal-backend-postgres"
+    readReplicas:
+      name: "read"
     secret:
       password: "<path:portal/data/pre-prod/postgres#postgres-password>"
       replicationPassword: "<path:portal/data/pre-prod/postgres#replication-password>"
       initUserDbSql: "<path:portal/data/pre-prod/postgres-db-user#01-init-user-db.sql>"
     primary:
+      name: "primary"
       extraVolumeMounts:
         - name: initdb
           mountPath: "/docker-entrypoint-initdb.d"
@@ -215,6 +218,10 @@ sharedidp:
     fullnameOverride: "sharedidp-keycloak"
     postgresql:
       fullnameOverride: "sharedidp-postgres"
+      primary:
+        name: "primary"
+      readReplicas:
+        name: "read"
     extraVolumes:
       - name: themes
         emptyDir: {}
@@ -292,6 +299,10 @@ centralidp:
     fullnameOverride: "centralidp-keycloak"
     postgresql:
       fullnameOverride: "centralidp-postgres"
+      primary:
+        name: "primary"
+      readReplicas:
+        name: "read"
     extraVolumes:
       - name: themes
         emptyDir: {}
