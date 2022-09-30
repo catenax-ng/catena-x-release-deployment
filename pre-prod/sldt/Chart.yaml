@@ -1,0 +1,16 @@
+apiVersion: v2
+name: sldt
+description: PRE-PROD deployment of the SLDT release
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+
+dependencies:
+  - name: registry
+    alias: registry
+    version: 0.2.1
+    repository: "https://www.eclipse.org/tractusx/charts/"
+  - name: semantic-hub
+    alias: semantic-hub
+    version: 0.1.1
+    repository: "https://www.eclipse.org/tractusx/charts/"

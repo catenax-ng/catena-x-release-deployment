@@ -1,0 +1,7 @@
+registry:
+  registry:
+    image: ghcr.io/catenax-ng/registry:0.2.0-M2-multi-tenancy
+
+semantic-hub:
+  hub:
+    image: ghcr.io/catenax-ng/semantic-hub:0.1.0-M2
