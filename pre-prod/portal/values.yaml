@@ -215,6 +215,10 @@ sharedidp:
     fullnameOverride: "sharedidp-keycloak"
     postgresql:
       fullnameOverride: "sharedidp-postgres"
+      primary:
+        name: "primary"
+      readReplicas:
+        name: "read"
     extraVolumes:
       - name: themes
         emptyDir: {}
@@ -292,6 +296,10 @@ centralidp:
     fullnameOverride: "centralidp-keycloak"
     postgresql:
       fullnameOverride: "centralidp-postgres"
+      primary:
+        name: "primary"
+      readReplicas:
+        name: "read"
     extraVolumes:
       - name: themes
         emptyDir: {}
