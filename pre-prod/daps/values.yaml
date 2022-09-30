@@ -1,0 +1,11 @@
+daps:
+  ingress:
+    enabled: true
+    host: daps.pre-prod.demo.catena-x.net
+    pathPrefix: "/"
+    rootPath: "/"
+    tls:
+      enabled: true
+      certMgr:
+        enabled: true
+        issuer: "letsencrypt-prod"
