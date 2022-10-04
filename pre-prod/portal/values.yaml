@@ -320,7 +320,7 @@ centralidp:
         mountPath: "/secrets"
     initContainers:
       - name: import
-        image: ghcr.io/catenax-ng/product-portal-iam_iam-import-pre-prod:latest
+        image: ghcr.io/catenax-ng/product-portal-iam_iam-import-pre-prod:v0.5.3
         imagePullPolicy: Always
         command:
           - sh
