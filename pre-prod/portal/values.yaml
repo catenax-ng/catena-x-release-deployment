@@ -38,7 +38,7 @@ portal-frontend:
   
   portal:
     image:
-      portaltag: 0.5.3
+      portaltag: 0.5.4
   
   assets:
     image:
@@ -46,7 +46,7 @@ portal-frontend:
   
   registration:
     image:
-      registrationtag: 0.5.4
+      registrationtag: 0.5.4.1
   
   demonstrator:
     enabled: true
