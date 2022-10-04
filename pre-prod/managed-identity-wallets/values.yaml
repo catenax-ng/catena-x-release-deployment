@@ -3,17 +3,10 @@ managed-identity-wallets:
     jwksUrl: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
     issuerUrl: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central"
     redirectUrl: "https://managed-identity-wallets.pre-prod.demo.catena-x.net/callback"
-    realm: "CX-Central"
-    role: "add_wallets"
-    roleMappings: "create_wallets:add_wallets,view_wallets:view_wallets,update_wallets:update_wallets,delete_wallets:delete_wallets,view_wallet:view_wallet,update_wallet:update_wallet"
-    resourceId: "Cl5-CX-Custodian"
   datapoolUrl: "https://catenax-bpdm-pre-prod.demo.catena-x.net"
   datapool:
     url: "https://catenax-bpdm-pre-prod.demo.catena-x.net"
     authUrl: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
-  image:
-    registry: "ghcr.io"
-    tag: "latest"
   revocationService:
     baseUrlForCredentialList: "https://managed-identity-wallets.pre-prod.demo.catena-x.net/api/credentials/"
     clientIssuanceApiUrl: "${SSI_SERVICE_URL:-http://localhost:8080}"
