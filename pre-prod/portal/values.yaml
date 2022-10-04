@@ -102,7 +102,7 @@ portal-backend:
               port: 8080
   
   postgresql:
-    fullnameOverride: "portal-backend-postgres"
+    fullnameOverride: "portal-backend-postgresql"
     readReplicas:
       name: "read"
     secret:
@@ -217,7 +217,7 @@ sharedidp:
   keycloak:
     fullnameOverride: "sharedidp-keycloak"
     postgresql:
-      fullnameOverride: "sharedidp-postgres"
+      fullnameOverride: "sharedidp-postgresql"
       primary:
         name: "primary"
       readReplicas:
@@ -298,7 +298,7 @@ centralidp:
   keycloak:
     fullnameOverride: "centralidp-keycloak"
     postgresql:
-      fullnameOverride: "centralidp-postgres"
+      fullnameOverride: "centralidp-postgresql"
       primary:
         name: "primary"
       readReplicas:
