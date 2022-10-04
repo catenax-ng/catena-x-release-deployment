@@ -1,0 +1,31 @@
+managed-identity-wallets:
+  auth:
+    jwksUrl: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
+    issuerUrl: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central"
+    redirectUrl: "https://managed-identity-wallets.pre-prod.demo.catena-x.net/callback"
+  datapoolUrl: "https://catenax-bpdm-pre-prod.demo.catena-x.net"
+  datapool:
+    url: "https://catenax-bpdm-pre-prod.demo.catena-x.net"
+    authUrl: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+  revocationService:
+    baseUrlForCredentialList: "https://managed-identity-wallets.pre-prod.demo.catena-x.net/api/credentials/"
+    clientIssuanceApiUrl: "${SSI_SERVICE_URL:-http://localhost:8080}"
+  acapy:
+    endpointUrl: "https://managed-identity-wallets.pre-prod.demo.catena-x.net:8000/"
+    secret:
+      name: "catenax-managed-identity-wallets-acapy-secrets"
+      path: "managed-identity-wallets/data/pre/catenax-managed-identity-wallets-acapy-secrets"
+  certificate:
+    host: "managed-identity-wallets.pre-prod.demo.catena-x.net"
+  managedIdentityWallets:
+    secret:
+      name: "catenax-managed-identity-wallets-secrets"
+      path: "managed-identity-wallets/data/pre/catenax-managed-identity-wallets-secrets"
+  postgresql:
+    secret:
+      name: "product-managed-identity-wallets-postgresql"
+      path: "managed-identity-wallets/data/pre/postgres-managed-identity-wallets-secret-config"
+  acapypostgresql:
+    secret:
+      name: "product-managed-identity-wallets-acapy-postgresql"
+      path: "managed-identity-wallets/data/pre/postgres-acapy-secret-config"
