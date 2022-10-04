@@ -8,5 +8,5 @@ appVersion: "0.1.0"
 dependencies:
   - name: managed-identity-wallets
     alias: managed-identity-wallets
-    version: 0.5.7
+    version: 0.5.8
     repository: "https://catenax-ng.github.io/product-core-managed-identity-wallets-cd/"
