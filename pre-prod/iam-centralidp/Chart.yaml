@@ -1,6 +1,6 @@
 apiVersion: v2
-name: iam
-description: PRE-PROD deployment of the IAM (Keycloak instances) release
+name: iam-centralidp
+description: PRE-PROD deployment of the IAM Keycloak Central instance release
 type: application
 version: 0.1.0
 appVersion: "0.5.3"
@@ -9,8 +9,4 @@ dependencies:
   - name: centralidp
     version: 0.5.3
     condition: centralidp.enabled
-    repository: "https://catenax-ng.github.io/product-portal-iam/"
-  - name: sharedidp
-    version: 0.5.3
-    condition: sharedidp.enabled
     repository: "https://catenax-ng.github.io/product-portal-iam/"
