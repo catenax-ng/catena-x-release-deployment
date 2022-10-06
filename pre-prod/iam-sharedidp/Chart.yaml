@@ -1,0 +1,12 @@
+apiVersion: v2
+name: iam-sharedidp
+description: PRE-PROD deployment of the IAM Keycloak Shared instance release
+type: application
+version: 0.1.0
+appVersion: "0.5.3"
+
+dependencies:
+  - name: sharedidp
+    version: 0.5.3
+    condition: sharedidp.enabled
+    repository: "https://catenax-ng.github.io/product-portal-iam/"
