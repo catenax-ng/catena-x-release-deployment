@@ -1,17 +1,53 @@
 registry:
+  enablePostgres: true
   registry:
     image: ghcr.io/catenax-ng/registry:0.2.0-M2-multi-tenancy
+    replicaCount: 1
+    imagePullPolicy: Always
     imagePullSecrets:
       - name: machineuser-pull-secret-ro
+    containerPort: 4243
     host: semantics.pre-prod.demo.catena-x.net
+    ## If 'authentication' is set to false, no OAuth authentication is enforced
+    authentication: true
+    idpIssuerUri: <path:semantics/data/authentication#keycloak-idp-preprod>
+    idpClientId: <path:semantics/data/authentication#idpClientIdRegistry-preprod>
+    service:
+      port: 8080
+      type: ClusterIP
+    dataSource:
+      driverClassName: org.postgresql.Driver
+      ## The url, user, and password parameter will be ignored if 'enablePostgres' is set to true.
+      ## In that case the postgresql auth parameters are used.
+      url: jdbc:postgresql://semantic-services-postgresql:5432/registry
+      user: catenax
+      password: <path:semantics/data/authentication#dbpassword>
     ingress:
       enabled: true
       tls: true
       urlPrefix: /registry
       className: nginx
       annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
         nginx.ingress.kubernetes.io/rewrite-target: /$2
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
         nginx.ingress.kubernetes.io/x-forwarded-prefix: /registry
+    resources:
+      limits:
+        memory: "1024Mi"
+      requests:
+        memory: "512Mi"
+  postgresql:
+    primary:
+      persistence:
+        enabled: true
+        size: 8Gi
+    service:
+      ports:
+        postgresql: 5432
+    auth:
+      username: catenax
+      password: <path:semantics/data/authentication#dbpassword>
+      database: registry
