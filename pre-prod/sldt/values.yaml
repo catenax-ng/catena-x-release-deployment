@@ -15,27 +15,3 @@ registry:
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
         nginx.ingress.kubernetes.io/x-forwarded-prefix: /registry
-
-
-semantic-hub:
-  hub:
-    image: ghcr.io/catenax-ng/semantic-hub:0.1.0-M2
-    imagePullSecrets:
-      - name: machineuser-pull-secret-ro
-    host: semantics.pre-prod.demo.catena-x.net
-    ingress:
-      ## Enable ingress for the Semantic Hub
-      enabled: true
-      ## Enable TLS (e.g. by using cert-manager)
-      tls: true
-      ## The secret name that contains the necessary 'tls.crt' and 'tls.key' entries
-      ## When using cert-manager this secret is created automatically
-      tlsSecretName: tls-secret
-      urlPrefix: /hub
-      className: nginx
-      annotations:
-        nginx.ingress.kubernetes.io/rewrite-target: /$2
-        nginx.ingress.kubernetes.io/use-regex: "true"
-        nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-        nginx.ingress.kubernetes.io/x-forwarded-prefix: /hub

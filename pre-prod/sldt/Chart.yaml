@@ -10,7 +10,3 @@ dependencies:
     alias: registry
     version: 0.2.1
     repository: "https://www.eclipse.org/tractusx/charts/"
-  - name: semantic-hub
-    alias: semantic-hub
-    version: 0.1.1
-    repository: "https://www.eclipse.org/tractusx/charts/"
