@@ -171,8 +171,6 @@ core:
                 port: 8080
     
     postgresql:
-      nameOverride: "portal-backend-postgresql"
-      fullnameOverride: "portal-backend-postgresql"
       secret:
         password: "<path:portal/data/devsecops-testing/postgres#postgres-password>"
         replicationPassword: "<path:portal/data/devsecops-testing/postgres#replication-password>"
@@ -257,8 +255,6 @@ core:
         appsettings: "<path:portal/data/devsecops-testing/services#appsettings.json>"
     
     pgadmin4:
-      nameOverride: "portal-backend-pgadmin4"
-      fullnameOverride: "portal-backend-pgadmin4"
       enabled: true
       secret:
         password: "<path:portal/data/devsecops-testing/pgadmin4#password>"
@@ -282,11 +278,6 @@ core:
   centralidp:
     enabled: true
     keycloak:
-      nameOverride: "centralidp"
-      fullnameOverride: "centralidp"
-      postgresql:
-        nameOverride: "centralidp"
-        fullnameOverride: "centralidp-postgresql"
       extraVolumes:
         - name: themes
           emptyDir: {}
@@ -358,11 +349,6 @@ core:
   sharedidp:
     enabled: true
     keycloak:
-      nameOverride: "sharedidp"
-      fullnameOverride: "sharedidp"
-      postgresql:
-        nameOverride: "sharedidp"
-        fullnameOverride: "sharedidp-postgresql"
       extraVolumes:
         - name: themes
           emptyDir: {}
