@@ -442,21 +442,21 @@ core:
       endpointUrl: "https://managed-identity-wallets.devsecops-testing.demo.catena-x.net:8000/"
       secret:
         name: "catenax-managed-identity-wallets-acapy-secrets"
-        path: "managed-identity-wallets/data/pre/catenax-managed-identity-wallets-acapy-secrets"
+        path: "managed-identity-wallets/data/devsecops-testing/catenax-managed-identity-wallets-acapy-secrets"
     certificate:
       host: "managed-identity-wallets.devsecops-testing.demo.catena-x.net"
     managedIdentityWallets:
       secret:
         name: "catenax-managed-identity-wallets-secrets"
-        path: "managed-identity-wallets/data/pre/catenax-managed-identity-wallets-secrets"
+        path: "managed-identity-wallets/data/devsecops-testing/catenax-managed-identity-wallets-secrets"
     postgresql:
       secret:
         name: "product-managed-identity-wallets-postgresql"
-        path: "managed-identity-wallets/data/pre/postgres-managed-identity-wallets-secret-config"
+        path: "managed-identity-wallets/data/devsecops-testing/postgres-managed-identity-wallets-secret-config"
     acapypostgresql:
       secret:
         name: "product-managed-identity-wallets-acapy-postgresql"
-        path: "managed-identity-wallets/data/pre/postgres-acapy-secret-config"
+        path: "managed-identity-wallets/data/devsecops-testing/postgres-acapy-secret-config"
   
   # Product SLDT Registry
   sldt-registry:
