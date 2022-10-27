@@ -54,74 +54,6 @@ core:
       name: "demonstrator"
       image: "ghcr.io/catenax-ng/product-demonstrator:latest"
 
-  bpdm:
-    enabled: true
-    image:
-      tag: "v2.0.0"
-  
-    springProfiles: [ ]
-  
-    ingress:
-      hosts:
-        - host: partners-pool.devsecops-testing.demo.catena-x.net
-          paths:
-            - path: /
-              pathType: Prefix
-      tls:
-        - secretName: tls-secret
-          hosts:
-            - partners-pool.devsecops-testing.demo.catena-x.net
-  
-    applicationSecret:
-      keycloak: <path:bpdm/data/devsecops-testing/pool/keycloak#credentials-secret>
-      cdq: <path:bpdm/data/devsecops-testing/pool/cdq#api-key>
-  
-    applicationConfig: |
-      # auth properties
-      bpdm.security.enabled=true
-      keycloak.enabled=true
-      keycloak.auth-server-url=https://centralidp.devsecops-testing.demo.catena-x.net/auth
-      springdoc.swagger-ui.oauth.client-id=Cl2-CX-Portal
-      # CDQ properties
-      bpdm.cdq.enabled=true
-      bpdm.cdq.storage=af3e668806c1360498774117b6180772
-      bpdm.cdq.datasource=6218e2bd4b43902250893a54
-      # every hour at minute 0
-      bpdm.cdq.import-scheduler-cron-expr=0 0 * * * *
-      # opensearch properties
-      bpdm.opensearch.enabled=true
-      bpdm.opensearch.host=${BPDM_OPENSEARCH_HOST}
-      # every hour at minute 30
-      bpdm.opensearch.export-scheduler-cron-expr=0 30 * * * *
-      # persist properties
-      bpdm.datasource.host=${BPDM_DB_HOST}
-      spring.datasource.url=jdbc:postgresql://${bpdm.datasource.host}:5432/bpdm
-      spring.datasource.password=${BPDM_DB_PASS}
-  
-    postgres:
-      auth:
-        postgresPassword: <path:bpdm/data/devsecops-testing/pool/postgresql#postgres-password>
-        password: <path:bpdm/data/devsecops-testing/pool/postgresql#password>
-  
-
-  daps:
-    enabled: true
-    ingress:
-      enabled: true
-      host: daps.devsecops-testing.demo.catena-x.net
-      pathPrefix: "/"
-      rootPath: "/"
-      tls:
-        enabled: true
-        certMgr:
-          enabled: true
-          issuer: "letsencrypt-prod"
-    daps:
-      secret:
-        clientId: "<path:essential-services/data/daps-preprod#clientId>"
-        clientSecret: "<path:essential-services/data/daps-preprod#clientSecret>"
-  
-
   portal-backend:
     enabled: true
     ingress:
@@ -344,7 +276,6 @@ core:
       realmuser:
         enabled: true
         cxcentraluser: "<path:portal/data/devsecops-testing/iam/centralidp-realms#CX-Central-users-0.json>"
-  
 
   sharedidp:
     enabled: true
@@ -420,6 +351,73 @@ core:
         company3user: "<path:portal/data/devsecops-testing/iam/sharedidp-realms#Company-3-users-0.json>"
         masteruser: "<path:portal/data/devsecops-testing/iam/sharedidp-realms#Company-1-users-0.json>"
   
+
+  bpdm:
+    enabled: true
+    image:
+      tag: "v2.0.0"
+  
+    springProfiles: [ ]
+  
+    ingress:
+      hosts:
+        - host: partners-pool.devsecops-testing.demo.catena-x.net
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: tls-secret
+          hosts:
+            - partners-pool.devsecops-testing.demo.catena-x.net
+  
+    applicationSecret:
+      keycloak: <path:bpdm/data/devsecops-testing/pool/keycloak#credentials-secret>
+      cdq: <path:bpdm/data/devsecops-testing/pool/cdq#api-key>
+  
+    applicationConfig: |
+      # auth properties
+      bpdm.security.enabled=true
+      keycloak.enabled=true
+      keycloak.auth-server-url=https://centralidp.devsecops-testing.demo.catena-x.net/auth
+      springdoc.swagger-ui.oauth.client-id=Cl2-CX-Portal
+      # CDQ properties
+      bpdm.cdq.enabled=true
+      bpdm.cdq.storage=af3e668806c1360498774117b6180772
+      bpdm.cdq.datasource=6218e2bd4b43902250893a54
+      # every hour at minute 0
+      bpdm.cdq.import-scheduler-cron-expr=0 0 * * * *
+      # opensearch properties
+      bpdm.opensearch.enabled=true
+      bpdm.opensearch.host=${BPDM_OPENSEARCH_HOST}
+      # every hour at minute 30
+      bpdm.opensearch.export-scheduler-cron-expr=0 30 * * * *
+      # persist properties
+      bpdm.datasource.host=${BPDM_DB_HOST}
+      spring.datasource.url=jdbc:postgresql://${bpdm.datasource.host}:5432/bpdm
+      spring.datasource.password=${BPDM_DB_PASS}
+  
+    postgres:
+      auth:
+        postgresPassword: <path:bpdm/data/devsecops-testing/pool/postgresql#postgres-password>
+        password: <path:bpdm/data/devsecops-testing/pool/postgresql#password>
+  
+
+  daps:
+    enabled: true
+    ingress:
+      enabled: true
+      host: daps.devsecops-testing.demo.catena-x.net
+      pathPrefix: "/"
+      rootPath: "/"
+      tls:
+        enabled: true
+        certMgr:
+          enabled: true
+          issuer: "letsencrypt-prod"
+    daps:
+      secret:
+        clientId: "<path:essential-services/data/daps-preprod#clientId>"
+        clientSecret: "<path:essential-services/data/daps-preprod#clientSecret>"
 
   managed-identity-wallets:
     enabled: true
