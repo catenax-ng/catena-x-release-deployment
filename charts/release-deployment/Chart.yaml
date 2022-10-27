@@ -26,5 +26,5 @@ appVersion: "release-2.0"
 dependencies:
   - name: cxcore
     alias: core
-    version: 0.1.6
+    version: 0.1.10
     repository: "https://catenax-ng.github.io/catena-x-release"

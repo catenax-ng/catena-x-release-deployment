@@ -1,5 +1,7 @@
 core:
-  portal:
+
+  # Product Portal Frontend
+  portal-frontend:
     enabled: true
     ingress:
       enabled: true
@@ -53,156 +55,462 @@ core:
       enabled: true
       name: "demonstrator"
       image: "ghcr.io/catenax-ng/product-demonstrator:latest"
+
+  # Product Portal Backend
   portal-backend:
-    enabled: false
-  #  ingress:
-  #    enabled: true
-  #    annotations:
-  #      kubernetes.io/ingress.class: nginx
-  #      nginx.ingress.kubernetes.io/use-regex: "true"
-  #      nginx.ingress.kubernetes.io/enable-cors: "true"
-  #      nginx.ingress.kubernetes.io/proxy-body-size: 8m
-  #      nginx.ingress.kubernetes.io/cors-allow-origin: http://localhost:3000, https://*.devsecops-testing.demo.catena-x.net
-  #    tls: 
-  #      - secretName: tls-secret
-  #        hosts:
-  #          - portal-backend.devsecops-testing.demo.catena-x.net
-  #    hosts:
-  #      - host: portal-backend.devsecops-testing.demo.catena-x.net
-  #        paths:
-  #          - path: /api/registration
-  #            pathType: Prefix
-  #            backend:
-  #              service: registration-service
-  #              port: 8080
-  #          - path: /api/administration
-  #            pathType: Prefix
-  #            backend:
-  #              service: administration-service
-  #              port: 8080
-  #          - path: /api/notification
-  #            pathType: Prefix
-  #            backend:
-  #              service: notification-service
-  #              port: 8080
-  #          - path: /api/provisioning
-  #            pathType: Prefix
-  #            backend:
-  #              service: provisioning-service
-  #              port: 8080
-  #          - path: /api/apps
-  #            pathType: Prefix
-  #            backend:
-  #              service: marketplace-app-service
-  #              port: 8080
-  #          - path: /api/services
-  #            pathType: Prefix
-  #            backend:
-  #              service: services-service
-  #              port: 8080
-  #  
-  #  postgresql:
-  #    secret:
-  #      password: "<path:portal/data/dev/postgres#postgres-password>"
-  #      replicationPassword: "<path:portal/data/dev/postgres#replication-password>"
-  #      initUserDbSql: "<path:portal/data/dev/postgres-db-user#01-init-user-db.sql>"
-  #    primary:
-  #      extraVolumeMounts:
-  #        - name: initdb
-  #          mountPath: "/docker-entrypoint-initdb.d"
-  #        - name: initdb-secrets
-  #          mountPath: "/secrets"
-  #      extraVolumes:
-  #        - name: initdb
-  #          emptyDir: {}
-  #        - name: initdb-secrets
-  #          secret:
-  #            secretName: secret-postgres-init-db-user
-  #      initContainers:
-  #        - name: initdb
-  #          image: ghcr.io/catenax-ng/product-portal-cd_initdb:latest
-  #          imagePullPolicy: Always
-  #          command:
-  #            - sh
-  #          args:
-  #            - -c
-  #            - |
-  #              echo "Copying initdb secret sqls..."
-  #              cp /secrets/* /docker-entrypoint-initdb.d
-  #              echo "Copying initdb sqls..."
-  #              cp -R /import/* /docker-entrypoint-initdb.d
-  #          volumeMounts:
-  #          - name: initdb
-  #            mountPath: "/docker-entrypoint-initdb.d"
-  #          - name: initdb-secrets
-  #            mountPath: "/secrets"
-  #  
-  #  registration:
-  #    image:
-  #      registrationtag: 0b3fc13727563ea45f76be5c2508dc481505069a
-  #    secret:
-  #      appsettings: "<path:portal/data/dev/registration#appsettings.json>"
-  #  
-  #  administration:
-  #    image:
-  #      administrationtag: 747dce623449d06106402c40d98907a6fdbf00bb
-  #    secret:
-  #      appsettings: "<path:portal/data/dev/administration#appsettings.json>"
-  #  
-  #  provisioning:
-  #    image:
-  #      provisioningtag: 0b3fc13727563ea45f76be5c2508dc481505069a
-  #    secret:
-  #      appsettings: "<path:portal/data/dev/provisioning#appsettings.json>"
-  #  
-  #  appmarketplace:
-  #    image:
-  #      appmarketplacetag: 747dce623449d06106402c40d98907a6fdbf00bb
-  #    secret:
-  #      appsettings: "<path:portal/data/dev/appmarketplace#appsettings.json>"
-  #  
-  #  portalmigrations:
-  #    image:
-  #      portalmigrationstag: 747dce623449d06106402c40d98907a6fdbf00bb
-  #    secret:
-  #      appsettings: "<path:portal/data/dev/portal-migrations#appsettings.json>"
-  #  
-  #  portalmaintenance:
-  #    image:
-  #      portalmaintenancetag: 0b3fc13727563ea45f76be5c2508dc481505069a
-  #    secret:
-  #      appsettings: "<path:portal/data/dev/portal-maintenance#appsettings.json>"
-  #  
-  #  notification:
-  #    image:
-  #      notificationtag: 0b3fc13727563ea45f76be5c2508dc481505069a
-  #    secret:
-  #      appsettings: "<path:portal/data/dev/notification#appsettings.json>"
-  #  
-  #  services:
-  #    image:
-  #      servicestag: 669d20e2ef03a49fcea9d9e23bd596622a56829e
-  #    secret:
-  #      appsettings: "<path:portal/data/dev/services#appsettings.json>"
-  #  
-  #  pgadmin4:
-  #    enabled: true
-  #    secret:
-  #      password: "<path:portal/data/dev/pgadmin4#password>"
-  #    env:
-  #      email: portal@catena-x.net
-  #    existingSecret: secret-pgadmin4
-  #    ingress:
-  #      enabled: true
-  #      annotations:
-  #        kubernetes.io/ingress.class: nginx
-  #      hosts:
-  #        - host: portal-pgadmin4.devsecops-testing.demo.catena-x.net
-  #          paths:
-  #          - path: /
-  #            pathType: Prefix
-  #      tls:
-  #        - hosts:
-  #          - portal-pgadmin4.devsecops-testing.demo.catena-x.net
-  #          secretName: tls-secret
+    enabled: true
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/proxy-body-size: 8m
+        nginx.ingress.kubernetes.io/cors-allow-origin: https://*.devsecops-testing.demo.catena-x.net
+      tls: 
+        - secretName: tls-secret
+          hosts:
+            - portal-backend.devsecops-testing.demo.catena-x.net
+      hosts:
+        - host: portal-backend.devsecops-testing.demo.catena-x.net
+          paths:
+            - path: /api/registration
+              pathType: Prefix
+              backend:
+                service: registration-service
+                port: 8080
+            - path: /api/administration
+              pathType: Prefix
+              backend:
+                service: administration-service
+                port: 8080
+            - path: /api/notification
+              pathType: Prefix
+              backend:
+                service: notification-service
+                port: 8080
+            - path: /api/provisioning
+              pathType: Prefix
+              backend:
+                service: provisioning-service
+                port: 8080
+            - path: /api/apps
+              pathType: Prefix
+              backend:
+                service: marketplace-app-service
+                port: 8080
+            - path: /api/services
+              pathType: Prefix
+              backend:
+                service: services-service
+                port: 8080
     
+    postgresql:
+      secret:
+        password: "<path:portal/data/devsecops-testing/postgres#postgres-password>"
+        replicationPassword: "<path:portal/data/devsecops-testing/postgres#replication-password>"
+        initUserDbSql: "<path:portal/data/devsecops-testing/postgres-db-user#01-init-user-db.sql>"
+      primary:
+        extraVolumeMounts:
+          - name: initdb
+            mountPath: "/docker-entrypoint-initdb.d"
+          - name: initdb-secrets
+            mountPath: "/secrets"
+        extraVolumes:
+          - name: initdb
+            emptyDir: {}
+          - name: initdb-secrets
+            secret:
+              secretName: secret-postgres-init-db-user
+        initContainers:
+          - name: initdb
+            image: ghcr.io/catenax-ng/product-portal-cd_initdb:v0.5.4
+            imagePullPolicy: Always
+            command:
+              - sh
+            args:
+              - -c
+              - |
+                echo "Copying initdb secret sqls..."
+                cp /secrets/* /docker-entrypoint-initdb.d
+                echo "Copying initdb sqls..."
+                cp -R /import/* /docker-entrypoint-initdb.d
+            volumeMounts:
+            - name: initdb
+              mountPath: "/docker-entrypoint-initdb.d"
+            - name: initdb-secrets
+              mountPath: "/secrets"
+    
+    registration:
+      image:
+        registrationtag: int-v0.5.4
+      secret:
+        appsettings: "<path:portal/data/devsecops-testing/registration#appsettings.json>"
+    
+    administration:
+      image:
+        administrationtag: int-v0.5.4
+      secret:
+        appsettings: "<path:portal/data/devsecops-testing/administration#appsettings.json>"
+    
+    provisioning:
+      image:
+        provisioningtag: int-v0.5.4
+      secret:
+        appsettings: "<path:portal/data/devsecops-testing/provisioning#appsettings.json>"
+    
+    appmarketplace:
+      image:
+        appmarketplacetag: int-v0.5.4
+      secret:
+        appsettings: "<path:portal/data/devsecops-testing/appmarketplace#appsettings.json>"
+    
+    portalmigrations:
+      image:
+        portalmigrationstag: int-v0.5.4
+      secret:
+        appsettings: "<path:portal/data/devsecops-testing/portal-migrations#appsettings.json>"
+    
+    portalmaintenance:
+      image:
+        portalmaintenancetag: int-v0.5.4
+      secret:
+        appsettings: "<path:portal/data/devsecops-testing/portal-maintenance#appsettings.json>"
+    
+    notification:
+      image:
+        notificationtag: int-v0.5.4
+      secret:
+        appsettings: "<path:portal/data/devsecops-testing/notification#appsettings.json>"
+    
+    services:
+      image:
+        servicestag: int-v0.5.4
+      secret:
+        appsettings: "<path:portal/data/devsecops-testing/services#appsettings.json>"
+    
+    pgadmin4:
+      enabled: true
+      secret:
+        password: "<path:portal/data/devsecops-testing/pgadmin4#password>"
+      env:
+        email: portal@catena-x.net
+      existingSecret: secret-pgadmin4
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+        hosts:
+          - host: portal-pgadmin4.devsecops-testing.demo.catena-x.net
+            paths:
+            - path: /
+              pathType: Prefix
+        tls:
+          - hosts:
+            - portal-pgadmin4.devsecops-testing.demo.catena-x.net
+            secretName: tls-secret
+
+  # Product Central Idp
+  centralidp:
+    enabled: true
+    keycloak:
+      extraVolumes:
+        - name: themes
+          emptyDir: {}
+        - name: realms
+          emptyDir: {}
+        - name: realm-secrets
+          secret:
+            secretName: secret-centralidp-realms
+      extraVolumeMounts:
+        - name: themes
+          mountPath: "/opt/bitnami/keycloak/themes/catenax-central"
+        - name: realms
+          mountPath: "/realms"
+        - name: realm-secrets
+          mountPath: "/secrets"
+      initContainers:
+        - name: import
+          image: ghcr.io/catenax-ng/product-portal-iam_iam-import-devsecops-testing:v0.5.3
+          imagePullPolicy: Always
+          command:
+            - sh
+          args:
+            - -c
+            - |
+              echo "Copying themes..."
+              cp -R /import/themes/catenax-central/* /themes
+              echo "Copying realms..."
+              cp -R /import/catenax-central/realms/* /realms
+              echo "Copying realms-secrets..."
+              cp /secrets/* /realms
+          volumeMounts:
+          - name: themes
+            mountPath: "/themes"
+          - name: realms
+            mountPath: "/realms"
+          - name: realm-secrets
+            mountPath: "/secrets"
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        hostname: centralidp.devsecops-testing.demo.catena-x.net
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+          nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS
+          nginx.ingress.kubernetes.io/cors-allow-origin: https://centralidp.devsecops-testing.demo.catena-x.net, http://localhost:3000
+          nginx.ingress.kubernetes.io/enable-cors: "true"
+          nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+          nginx.ingress.kubernetes.io/proxy-buffering: "on"
+          nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
+          nginx.ingress.kubernetes.io/use-regex: "true"
+        tls: true
+    secrets:
+      auth:
+        existingSecret:
+          adminpassword: "<path:portal/data/devsecops-testing/iam/centralidp-keycloak#admin-password>"
+          managementpassword: "<path:portal/data/devsecops-testing/iam/centralidp-keycloak#management-password>"
+      postgresql:
+        auth:
+          existingSecret:
+            postgrespassword: "<path:portal/data/devsecops-testing/iam/centralidp-postgres#postgres-password>"
+            password: "<path:portal/data/devsecops-testing/iam/centralidp-postgres#password>"
+            replicationPassword: "<path:portal/data/devsecops-testing/iam/centralidp-postgres#replication-password>"
+      realmuser:
+        enabled: true
+        cxcentraluser: "<path:portal/data/devsecops-testing/iam/centralidp-realms#CX-Central-users-0.json>"
+
+  # Product Shared Idp
+  sharedidp:
+    enabled: true
+    keycloak:
+      extraVolumes:
+        - name: themes
+          emptyDir: {}
+        - name: realms
+          emptyDir: {}
+        - name: realm-secrets
+          secret:
+            secretName: secret-sharedidp-realms
+      extraVolumeMounts:
+        - name: themes
+          mountPath: "/opt/bitnami/keycloak/themes/catenax-shared"
+        - name: realms
+          mountPath: "/realms"
+        - name: realm-secrets
+          mountPath: "/secrets"
+      initContainers:
+        - name: import
+          image: ghcr.io/catenax-ng/product-portal-iam_iam-import-devsecops-testing:v0.5.3
+          imagePullPolicy: Always
+          command:
+            - sh
+          args:
+            - -c
+            - |
+              echo "Copying themes..."
+              cp -R /import/themes/catenax-shared/* /themes
+              echo "Copying realms..."
+              cp -R /import/catenax-shared/realms/* /realms
+              echo "Copying realms-secrets..."
+              cp /secrets/* /realms
+          volumeMounts:
+          - name: themes
+            mountPath: "/themes"
+          - name: realms
+            mountPath: "/realms"
+          - name: realm-secrets
+            mountPath: "/secrets"
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        hostname: sharedidp.devsecops-testing.demo.catena-x.net
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+          nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS
+          nginx.ingress.kubernetes.io/cors-allow-origin: https://sharedidp.devsecops-testing.demo.catena-x.net, http://localhost:3000
+          nginx.ingress.kubernetes.io/enable-cors: "true"
+          nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+          nginx.ingress.kubernetes.io/proxy-buffering: "on"
+          nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
+          nginx.ingress.kubernetes.io/use-regex: "true"
+        tls: true
+    secrets:
+      auth:
+        existingSecret:
+          adminpassword: "<path:portal/data/devsecops-testing/iam/sharedidp-keycloak#admin-password>"
+          managementpassword: "<path:portal/data/devsecops-testing/iam/sharedidp-keycloak#management-password>"
+      postgresql:
+        auth:
+          existingSecret:
+            postgrespassword: "<path:portal/data/devsecops-testing/iam/sharedidp-postgres#postgres-password>"
+            password: "<path:portal/data/devsecops-testing/iam/sharedidp-postgres#password>"
+            replicationPassword: "<path:portal/data/devsecops-testing/iam/sharedidp-postgres#replication-password>"
+      realmuser:
+        enabled: true
+        cxtestaccessuser: "<path:portal/data/devsecops-testing/iam/sharedidp-realms#CX-Test-Access-users-0.json>"
+        company1user: "<path:portal/data/devsecops-testing/iam/sharedidp-realms#Company-1-users-0.json>"
+        company2user: "<path:portal/data/devsecops-testing/iam/sharedidp-realms#Company-2-users-0.json>"
+        company3user: "<path:portal/data/devsecops-testing/iam/sharedidp-realms#Company-3-users-0.json>"
+        masteruser: "<path:portal/data/devsecops-testing/iam/sharedidp-realms#Company-1-users-0.json>"
+
+  # Product BPDM
+  bpdm:
+    enabled: true
+    image:
+      tag: "v2.0.0"
+  
+    springProfiles: [ ]
+  
+    ingress:
+      hosts:
+        - host: partners-pool.devsecops-testing.demo.catena-x.net
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: tls-secret
+          hosts:
+            - partners-pool.devsecops-testing.demo.catena-x.net
+  
+    applicationSecret:
+      keycloak: <path:bpdm/data/devsecops-testing/pool/keycloak#credentials-secret>
+      cdq: <path:bpdm/data/devsecops-testing/pool/cdq#api-key>
+  
+    applicationConfig: |
+      # auth properties
+      bpdm.security.enabled=true
+      keycloak.enabled=true
+      keycloak.auth-server-url=https://centralidp.devsecops-testing.demo.catena-x.net/auth
+      springdoc.swagger-ui.oauth.client-id=Cl2-CX-Portal
+      # CDQ properties
+      bpdm.cdq.enabled=true
+      bpdm.cdq.storage=af3e668806c1360498774117b6180772
+      bpdm.cdq.datasource=6218e2bd4b43902250893a54
+      # every hour at minute 0
+      bpdm.cdq.import-scheduler-cron-expr=0 0 * * * *
+      # opensearch properties
+      bpdm.opensearch.enabled=true
+      bpdm.opensearch.host=${BPDM_OPENSEARCH_HOST}
+      # every hour at minute 30
+      bpdm.opensearch.export-scheduler-cron-expr=0 30 * * * *
+      # persist properties
+      bpdm.datasource.host=${BPDM_DB_HOST}
+      spring.datasource.url=jdbc:postgresql://${bpdm.datasource.host}:5432/bpdm
+      spring.datasource.password=${BPDM_DB_PASS}
+  
+    postgres:
+      auth:
+        postgresPassword: <path:bpdm/data/devsecops-testing/pool/postgresql#postgres-password>
+        password: <path:bpdm/data/devsecops-testing/pool/postgresql#password>
+  
+  # Product DAPS
+  daps:
+    enabled: true
+    ingress:
+      enabled: true
+      host: daps.devsecops-testing.demo.catena-x.net
+      pathPrefix: "/"
+      rootPath: "/"
+      tls:
+        enabled: true
+        certMgr:
+          enabled: true
+          issuer: "letsencrypt-prod"
+    daps:
+      secret:
+        clientId: "<path:essential-services/data/daps-preprod#clientId>"
+        clientSecret: "<path:essential-services/data/daps-preprod#clientSecret>"
+
+  # Product Managed Identity Wallets
+  managed-identity-wallets:
+    enabled: true
+    auth:
+      jwksUrl: "https://centralidp.devsecops-testing.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
+      issuerUrl: "https://centralidp.devsecops-testing.demo.catena-x.net/auth/realms/CX-Central"
+      redirectUrl: "https://managed-identity-wallets.devsecops-testing.demo.catena-x.net/callback"
+    datapoolUrl: "https://catenax-bpdm-devsecops-testing.demo.catena-x.net"
+    datapool:
+      url: "https://catenax-bpdm-devsecops-testing.demo.catena-x.net"
+      authUrl: "https://centralidp.devsecops-testing.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+    revocationService:
+      baseUrlForCredentialList: "https://managed-identity-wallets.devsecops-testing.demo.catena-x.net/api/credentials/"
+      clientIssuanceApiUrl: "${SSI_SERVICE_URL:-http://localhost:8080}"
+    acapy:
+      endpointUrl: "https://managed-identity-wallets.devsecops-testing.demo.catena-x.net:8000/"
+      secret:
+        name: "catenax-managed-identity-wallets-acapy-secrets"
+        path: "managed-identity-wallets/data/pre/catenax-managed-identity-wallets-acapy-secrets"
+    certificate:
+      host: "managed-identity-wallets.devsecops-testing.demo.catena-x.net"
+    managedIdentityWallets:
+      secret:
+        name: "catenax-managed-identity-wallets-secrets"
+        path: "managed-identity-wallets/data/pre/catenax-managed-identity-wallets-secrets"
+    postgresql:
+      secret:
+        name: "product-managed-identity-wallets-postgresql"
+        path: "managed-identity-wallets/data/pre/postgres-managed-identity-wallets-secret-config"
+    acapypostgresql:
+      secret:
+        name: "product-managed-identity-wallets-acapy-postgresql"
+        path: "managed-identity-wallets/data/pre/postgres-acapy-secret-config"
+  
+  # Product SLDT Registry
+  sldt-registry:
+    enabled: true
+    enablePostgres: true
+    registry:
+      image: ghcr.io/catenax-ng/registry:0.2.0-M2-multi-tenancy
+      replicaCount: 1
+      imagePullPolicy: Always
+      imagePullSecrets:
+        - name: machineuser-pull-secret-ro
+      containerPort: 4243
+      host: semantics.devsecops-testing.demo.catena-x.net
+      ## If 'authentication' is set to false, no OAuth authentication is enforced
+      authentication: true
+      idpIssuerUri: <path:semantics/data/authentication#keycloak-idp-preprod>
+      idpClientId: <path:semantics/data/authentication#idpClientIdRegistry-preprod>
+      service:
+        port: 8080
+        type: ClusterIP
+      dataSource:
+        driverClassName: org.postgresql.Driver
+        ## The url, user, and password parameter will be ignored if 'enablePostgres' is set to true.
+        ## In that case the postgresql auth parameters are used.
+        url: jdbc:postgresql://semantic-services-postgresql:5432/registry
+        user: catenax
+        password: <path:semantics/data/authentication#dbpassword>
+      ingress:
+        enabled: true
+        tls: true
+        urlPrefix: /registry
+        className: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          nginx.ingress.kubernetes.io/rewrite-target: /$2
+          nginx.ingress.kubernetes.io/use-regex: "true"
+          nginx.ingress.kubernetes.io/enable-cors: "true"
+          nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+          nginx.ingress.kubernetes.io/x-forwarded-prefix: /registry
+      resources:
+        limits:
+          memory: "1024Mi"
+        requests:
+          memory: "512Mi"
+    postgresql:
+      primary:
+        persistence:
+          enabled: true
+          size: 8Gi
+      service:
+        ports:
+          postgresql: 5432
+      auth:
+        username: catenax
+        password: <path:semantics/data/authentication#dbpassword>
+        database: registry
+   
