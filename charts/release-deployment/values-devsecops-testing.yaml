@@ -1,4 +1,6 @@
 core:
+
+  # Product Portal Frontend
   portal-frontend:
     enabled: true
     ingress:
@@ -54,6 +56,7 @@ core:
       name: "demonstrator"
       image: "ghcr.io/catenax-ng/product-demonstrator:latest"
 
+  # Product Portal Backend
   portal-backend:
     enabled: true
     ingress:
@@ -207,6 +210,7 @@ core:
             - portal-pgadmin4.devsecops-testing.demo.catena-x.net
             secretName: tls-secret
 
+  # Product Central Idp
   centralidp:
     enabled: true
     keycloak:
@@ -277,6 +281,7 @@ core:
         enabled: true
         cxcentraluser: "<path:portal/data/devsecops-testing/iam/centralidp-realms#CX-Central-users-0.json>"
 
+  # Product Shared Idp
   sharedidp:
     enabled: true
     keycloak:
@@ -350,8 +355,8 @@ core:
         company2user: "<path:portal/data/devsecops-testing/iam/sharedidp-realms#Company-2-users-0.json>"
         company3user: "<path:portal/data/devsecops-testing/iam/sharedidp-realms#Company-3-users-0.json>"
         masteruser: "<path:portal/data/devsecops-testing/iam/sharedidp-realms#Company-1-users-0.json>"
-  
 
+  # Product BPDM
   bpdm:
     enabled: true
     image:
@@ -401,7 +406,7 @@ core:
         postgresPassword: <path:bpdm/data/devsecops-testing/pool/postgresql#postgres-password>
         password: <path:bpdm/data/devsecops-testing/pool/postgresql#password>
   
-
+  # Product DAPS
   daps:
     enabled: true
     ingress:
@@ -419,6 +424,7 @@ core:
         clientId: "<path:essential-services/data/daps-preprod#clientId>"
         clientSecret: "<path:essential-services/data/daps-preprod#clientSecret>"
 
+  # Product Managed Identity Wallets
   managed-identity-wallets:
     enabled: true
     auth:
@@ -452,7 +458,7 @@ core:
         name: "product-managed-identity-wallets-acapy-postgresql"
         path: "managed-identity-wallets/data/pre/postgres-acapy-secret-config"
   
-
+  # Product SLDT Registry
   sldt-registry:
     enabled: true
     enablePostgres: true
