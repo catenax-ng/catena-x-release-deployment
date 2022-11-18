@@ -1,1 +1,20 @@
 daps-registration:
+  ingress:
+    enabled: true
+    hosts:
+      - host: daps-registration.beta.demo.catena-x.net
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      enabled: true
+  drs:
+    secret:
+      secretName: "<path:devsecops/data/preprod/daps-registration/#secretName>"
+      clientId: "<path:devsecops/data/preprod/daps-registration/#clientId>"
+      clientSecret: "<path:devsecops/data/preprod/daps-registration/#clientSecret>"
+      authServerUrl: "<path:devsecops/data/preprod/daps-registration/#authServerUrl>"
+      realm: "<path:devsecops/data/preprod/daps-registration/#realm>"
+      resource: "<path:devsecops/data/preprod/daps-registration/#resource>"
+      apiUri: "<path:devsecops/data/preprod/daps-registration/#apiUri>"
+      tokenUri: "<path:devsecops/data/preprod/daps-registration/#tokenUri>"
