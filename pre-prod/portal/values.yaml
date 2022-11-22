@@ -38,15 +38,15 @@ portal-frontend:
   
   portal:
     image:
-      portaltag: 0.5.4
+      portaltag: 0.6.0
   
   assets:
     image:
-      assetstag: 0.5.4
+      assetstag: 0.6.0
   
   registration:
     image:
-      registrationtag: 0.5.4.1
+      registrationtag: 0.6.0
   
   demonstrator:
     enabled: true
@@ -121,7 +121,7 @@ portal-backend:
             secretName: secret-postgres-init-db-user
       initContainers:
         - name: initdb
-          image: ghcr.io/catenax-ng/product-portal-cd_initdb:v0.5.4
+          image: ghcr.io/catenax-ng/product-portal-cd_initdb:v0.6.0
           imagePullPolicy: Always
           command:
             - sh
@@ -140,49 +140,49 @@ portal-backend:
   
   registration:
     image:
-      registrationtag: int-v0.5.4
+      registrationtag: int-v0.6.0
     secret:
       appsettings: "<path:portal/data/pre-prod/registration#appsettings.json>"
   
   administration:
     image:
-      administrationtag: int-v0.5.4
+      administrationtag: int-v0.6.0
     secret:
       appsettings: "<path:portal/data/pre-prod/administration#appsettings.json>"
   
   provisioning:
     image:
-      provisioningtag: int-v0.5.4
+      provisioningtag: int-v0.6.0
     secret:
       appsettings: "<path:portal/data/pre-prod/provisioning#appsettings.json>"
   
   appmarketplace:
     image:
-      appmarketplacetag: int-v0.5.4
+      appmarketplacetag: int-v0.6.0
     secret:
       appsettings: "<path:portal/data/pre-prod/appmarketplace#appsettings.json>"
   
   portalmigrations:
     image:
-      portalmigrationstag: int-v0.5.4
+      portalmigrationstag: int-v0.6.0
     secret:
       appsettings: "<path:portal/data/pre-prod/portal-migrations#appsettings.json>"
   
   portalmaintenance:
     image:
-      portalmaintenancetag: int-v0.5.4
+      portalmaintenancetag: int-v0.6.0
     secret:
       appsettings: "<path:portal/data/pre-prod/portal-maintenance#appsettings.json>"
   
   notification:
     image:
-      notificationtag: int-v0.5.4
+      notificationtag: int-v0.6.0
     secret:
       appsettings: "<path:portal/data/pre-prod/notification#appsettings.json>"
   
   services:
     image:
-      servicestag: int-v0.5.4
+      servicestag: int-v0.6.0
     secret:
       appsettings: "<path:portal/data/pre-prod/services#appsettings.json>"
   
