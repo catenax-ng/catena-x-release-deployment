@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: trace-x
+spec:
+  project: project-traceability-foss
+  source:
+    repoURL: 'https://github.com/catenax-ng/catena-x-release-deployment'
+    path: pre-prod/trace-x
+    targetRevision: HEAD
+    plugin:
+      name: argocd-vault-plugin-helm
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: product-traceability-foss
+  syncPolicy:
+    automated: {}

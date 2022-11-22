@@ -1,0 +1,39 @@
+frontend:
+  ingress:
+    enabled: true
+    hosts:
+      - host: "traceability-portal.pre-prod.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: Prefix
+      tls:
+        - hosts:
+            - "traceability-portal.pre-prod.demo.catena-x.net"
+          secretName: tls-secret
+
+backend:
+  pgadmin:
+    enabled: false
+  irs:
+    enabled: false
+
+  imagePullSecrets:
+    - name: machineuser-pull-secret-ro
+
+  ingress:
+    enabled: true
+    hosts:
+      - host: "traceability.pre-prod.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+        tls:
+          - hosts:
+            - "traceability.pre-prod.demo.catena-x.net"
+            secretName: tls-secret
+  postgres:
+    auth:
+      postgresPassword: "<path:traceability-foss/data/int/database#postgresPassword>"
+      password: "<path:traceability-foss/data/int/database#tracePassword>"
+      database: ""
+      username: ""
