@@ -10,11 +10,11 @@ daps-registration:
       enabled: true
   drs:
     secret:
-      secretName: "<path:devsecops/data/preprod/daps-registration/#secretName>"
-      clientId: "<path:devsecops/data/preprod/daps-registration/#clientId>"
-      clientSecret: "<path:devsecops/data/preprod/daps-registration/#clientSecret>"
-      authServerUrl: "<path:devsecops/data/preprod/daps-registration/#authServerUrl>"
-      realm: "<path:devsecops/data/preprod/daps-registration/#realm>"
-      resource: "<path:devsecops/data/preprod/daps-registration/#resource>"
-      apiUri: "<path:devsecops/data/preprod/daps-registration/#apiUri>"
-      tokenUri: "<path:devsecops/data/preprod/daps-registration/#tokenUri>"
+      secretName: "<path:essential-services/data/preprod/daps-registration/#secretName>"
+      clientId: "<path:essential-services/data/preprod/daps-registration/#clientId>"
+      clientSecret: "<path:essential-services/data/preprod/daps-registration/#clientSecret>"
+      authServerUrl: "<path:essential-services/data/preprod/daps-registration/#authServerUrl>"
+      realm: "<path:essential-services/data/preprod/daps-registration/#realm>"
+      resource: "<path:essential-services/data/preprod/daps-registration/#resource>"
+      apiUri: "<path:essential-services/data/preprod/daps-registration/#apiUri>"
+      tokenUri: "<path:essential-services/data/preprod/daps-registration/#tokenUri>"
