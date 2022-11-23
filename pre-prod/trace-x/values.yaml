@@ -31,9 +31,29 @@ backend:
           - hosts:
             - "traceability.pre-prod.demo.catena-x.net"
             secretName: tls-secret
+
+  mailserver:
+    host: "smtp.office365.com"
+    port: "587"
+    username: "notifications@catena-x.net"
+    password: "<path:traceability-foss/data/pre-prod#mailserverPassword>"
+
+  datasource:
+    url: jdbc:postgresql://trace-x-postgresql:5432/trace
+    username: trace
+    password: "<path:traceability-foss/data/pre-prod/database#tracePassword>"
+
+  oauth2:
+    clientId: "<path:traceability-foss/data/pre-prod/keycloak/oauth2#clientId>"
+    clientSecret: "<path:traceability-foss/data/pre-prod/keycloak/oauth2#clientSecret>"
+    clientTokenUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+    jwkSetUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
+    resourceClient: "<path:traceability-foss/data/pre-prod/keycloak/oauth2#resourceClient>"
+
   postgres:
+    enabled: true
     auth:
-      postgresPassword: "<path:traceability-foss/data/int/database#postgresPassword>"
-      password: "<path:traceability-foss/data/int/database#tracePassword>"
-      database: ""
-      username: ""
+      postgresPassword: "<path:traceability-foss/data/pre-prod/database#postgresPassword>"
+      password: "<path:traceability-foss/data/pre-prod/database#tracePassword>"
+      database: "trace"
+      username: "trace"
