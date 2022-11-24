@@ -1,0 +1,16 @@
+apiVersion: v2
+name: trace-x
+description: PRE-PROD deployment of the Trace-X (traceability-foss) release
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+
+dependencies:
+  - name: traceability-foss-frontend
+    alias: frontend
+    version: 0.1.0
+    repository: "https://catenax-ng.github.io/product-traceability-foss-frontend/"
+  - name: traceability-foss-backend
+    alias: backend
+    version: 0.1.0
+    repository: "https://catenax-ng.github.io/product-traceability-foss-backend/"
