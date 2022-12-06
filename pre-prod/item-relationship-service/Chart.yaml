@@ -1,0 +1,12 @@
+apiVersion: v2
+name: item-relationship-service
+description: PRE-PROD deployment of the Item-Relationship-Service release
+type: application
+version: 0.1.0
+appVersion: "1.3.0"
+
+dependencies:
+  - name: irs-helm
+    alias: irs
+    version: 2.1.0 # wait for released helm chart with appVersion 1.3.0
+    repository: "https://eclipse-tractusx.github.io/charts/dev/"

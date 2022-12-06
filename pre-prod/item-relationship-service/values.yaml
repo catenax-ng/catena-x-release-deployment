@@ -1,0 +1,102 @@
+irs:
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    hosts:
+      - host: "irs.pre-prod.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      tls:
+        - hosts:
+            - "irs.pre-prod.demo.catena-x.net"
+          secretName: tls-secret
+
+  #####################
+  # IRS Configuration #
+  #####################
+  irsUrl: "https://irs.pre-prod.demo.catena-x.net"
+
+  digitalTwinRegistry:
+    url: # todo: tbd
+  semanticsHub:
+    url: # todo: tbd
+    defaultUrns: >
+      urn:bamm:io.catenax.serial_part_typization:1.0.0#SerialPartTypization
+  #    ,urn:bamm:com.catenax.assembly_part_relationship:1.0.0#AssemblyPartRelationship
+  bpdm:
+    url: # todo: tbd
+  keycloak:
+    oauth2:
+      clientId: # todo: tbd
+      clientSecret: # todo: tbd
+      clientTokenUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+      jwkSetUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
+
+  ##################################
+  # EDC Controlplane Configuration #
+  ##################################
+  # todo: tbd
+  edc-controlplane:
+    ingresses: [ ]
+    edc:
+      postgresql:
+        user: edc
+        password:
+      transfer:
+        proxy:
+          token:
+            verifier:
+              publickey:
+                alias:
+            signer:
+              privatekey:
+                alias:
+      api:
+        auth:
+          key:
+      controlplane:
+        url:
+      dataplane:
+        url:
+    configuration:
+      properties: |-
+        edc.oauth.client.id=
+        edc.oauth.private.key.alias=
+        edc.oauth.provider.jwks.url=
+        edc.oauth.public.key.alias=
+        edc.oauth.token.url=
+        edc.vault.hashicorp.url=
+        edc.vault.hashicorp.token=
+        edc.vault.hashicorp.api.secret.path=
+        edc.data.encryption.keys.alias=
+        edc.data.encryption.algorithm=NONE
+
+  ###############################
+  # EDC Dataplane Configuration #
+  ###############################
+  # todo: tbd
+  edc-dataplane:
+    edc:
+      api:
+        auth:
+          key:
+    ## Ingress declaration to expose the network service.
+    ingresses: [ ]
+
+    configuration:
+      properties: |-
+        edc.oauth.client.id=
+        edc.oauth.private.key.alias=
+        edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
+        edc.oauth.provider.jwks.url=
+        edc.oauth.public.key.alias=
+        edc.oauth.token.url=
+        edc.vault.hashicorp.url=
+        edc.vault.hashicorp.token=
+        edc.vault.hashicorp.api.secret.path=
