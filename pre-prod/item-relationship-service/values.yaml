@@ -12,10 +12,9 @@ irs:
           - path: /
             pathType: Prefix
     tls:
-      tls:
-        - hosts:
-            - "irs.pre-prod.demo.catena-x.net"
-          secretName: tls-secret
+      - hosts:
+          - "irs.pre-prod.demo.catena-x.net"
+        secretName: tls-secret
 
   #####################
   # IRS Configuration #
