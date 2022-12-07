@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: daps
+spec:
+  project: project-daps
+  source:
+    repoURL: 'https://github.com/catenax-ng/catena-x-release-deployment'
+    path: pre-prod/daps
+    targetRevision: HEAD
+    plugin:
+      name: argocd-vault-plugin-helm
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: product-daps
+  syncPolicy:
+    automated: {}
