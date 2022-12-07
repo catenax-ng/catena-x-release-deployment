@@ -40,6 +40,13 @@ irs:
   minioUser: "<path:devsecops/data/pre-prod/item-releationship-service-frontend#minio_user>"
   minioPassword: "<path:devsecops/data/pre-prod/item-releationship-service-frontend#minio_pw>"
 
+  #######################
+  # Minio Configuration #
+  #######################
+  irs-minio:
+    minioUser: "<path:devsecops/data/pre-prod/item-releationship-service-frontend#minio_user>"
+    minioPassword: "<path:devsecops/data/pre-prod/item-releationship-service-frontend#minio_pw>"
+
   ##################################
   # EDC Controlplane Configuration #
   ##################################
