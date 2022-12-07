@@ -37,8 +37,8 @@ irs:
       clientTokenUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
       jwkSetUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
 
-  minioUser: "<path:devsecops/data/pre-prod/item-releationship-service-frontend#minio_user>"
-  minioPassword: "<path:devsecops/data/pre-prod/item-releationship-service-frontend#minio_pw>"
+  minioUser: "<path:devsecops/data/pre-prod/item-relationship-service#minio_user>"
+  minioPassword: "<path:devsecops/data/pre-prod/item-relationship-service#minio_pw>"
 
   #######################
   # Minio Configuration #
