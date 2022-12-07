@@ -23,14 +23,14 @@ irs:
   irsUrl: "https://irs.pre-prod.demo.catena-x.net"
 
   digitalTwinRegistry:
-    url: # todo: tbd
+    url: "https://semantics.pre-prod.demo.catena-x.net/registry"
   semanticsHub:
-    url: # todo: tbd
+    url: # todo: tbd → A1ODT-1039
     defaultUrns: >
       urn:bamm:io.catenax.serial_part_typization:1.0.0#SerialPartTypization
   #    ,urn:bamm:com.catenax.assembly_part_relationship:1.0.0#AssemblyPartRelationship
   bpdm:
-    url: # todo: tbd
+    url: "https://partners-pool.pre-prod.demo.catena-x.net"
   keycloak:
     oauth2:
       clientId: # todo: tbd
