@@ -24,7 +24,7 @@ irs:
   digitalTwinRegistry:
     url: "https://semantics.pre-prod.demo.catena-x.net/registry"
   semanticsHub:
-    url: # todo: tbd → A1ODT-1039
+    url: "https://semantics.pre-prod.demo.catena-x.net/hub"
     defaultUrns: >
       urn:bamm:io.catenax.serial_part_typization:1.0.0#SerialPartTypization
   #    ,urn:bamm:com.catenax.assembly_part_relationship:1.0.0#AssemblyPartRelationship
