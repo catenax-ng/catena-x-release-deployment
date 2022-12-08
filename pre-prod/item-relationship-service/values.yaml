@@ -31,8 +31,12 @@ irs:
   bpdm:
     url: "https://partners-pool.pre-prod.demo.catena-x.net"
 
-  minioUser: "<path:devsecops/data/pre-prod/item-relationship-service#minio_user>"
-  minioPassword: "<path:devsecops/data/pre-prod/item-relationship-service#minio_pw>"
+  minioUser: "<path:traceability-irs/data/pre-prod/minio#minio_user>"
+  minioPassword: "<path:traceability-irs/data/pre-prod/minio#minio_pw>"
+
+  aasWrapper:
+    username: "<path:traceability-irs/data/pre-prod/aas#aasWrapper_user>"
+    password: "<path:traceability-irs/data/pre-prod/aas#aasWrapper_pw>"
 
   keycloak:
     oauth2:
@@ -40,10 +44,6 @@ irs:
       clientSecret: "18276313hb1kj-123123" # todo: tbd
       clientTokenUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
       jwkSetUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
-
-  aasWrapper:
-    username: "<path:devsecops/data/pre-prod/item-relationship-service#aasWrapper_user>"
-    password: "<path:devsecops/data/pre-prod/item-relationship-service#aasWrapper_pw>"
 
   #######################
   # Minio Configuration #
