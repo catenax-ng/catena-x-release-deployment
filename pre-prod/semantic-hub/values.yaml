@@ -21,6 +21,10 @@ semantic-hub:
       nginx.ingress.kubernetes.io/x-forwarded-prefix: /hub
 
   graphdb:
+    image: ghcr.io/catenax-ng/jena-fuseki:4.1.0
+    imagePullSecrets:
+      - name: machineuser-pull-secret-ro
+
     password: "<path:semantics/data/authentication#graphdbPw-preprod>"
     storageClassName: azurefile
     storageSize: 8Gi
