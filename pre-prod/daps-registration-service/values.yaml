@@ -16,13 +16,13 @@ daps-registration:
       enabled: true
       secretName: tls-secret
       host: "daps-registration.pre-prod.demo.catena-x.net"
-
-drs:
-  secret:
-    clientId: "<path:essential-services/data/daps-preprod#clientId>"
-    clientSecret: "<path:essential-services/data/daps-preprod#clientSecret>"
-    authServerUrl: "<path:essential-services/data/daps-reg-svc-pre-prod#auth-server-url>"
-    realm: "<path:essential-services/data/daps-reg-svc-pre-prod#realm>"
-    resource: "<path:essential-services/data/daps-reg-svc-pre-prod#resource>"
-    apiUri: "<path:essential-services/data/daps-reg-svc-pre-prod#apiUri>"
-    tokenUri: "<path:essential-services/data/daps-reg-svc-pre-prod#tokenUri>"
+      
+  drs:
+    secret:
+      clientId: "<path:essential-services/data/daps-preprod#clientId>"
+      clientSecret: "<path:essential-services/data/daps-preprod#clientSecret>"
+      authServerUrl: "<path:essential-services/data/daps-reg-svc-pre-prod#auth-server-url>"
+      realm: "<path:essential-services/data/daps-reg-svc-pre-prod#realm>"
+      resource: "<path:essential-services/data/daps-reg-svc-pre-prod#resource>"
+      apiUri: "<path:essential-services/data/daps-reg-svc-pre-prod#apiUri>"
+      tokenUri: "<path:essential-services/data/daps-reg-svc-pre-prod#tokenUri>"
