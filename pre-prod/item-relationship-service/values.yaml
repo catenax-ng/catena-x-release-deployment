@@ -30,15 +30,20 @@ irs:
   #    ,urn:bamm:com.catenax.assembly_part_relationship:1.0.0#AssemblyPartRelationship
   bpdm:
     url: "https://partners-pool.pre-prod.demo.catena-x.net"
-  keycloak:
-    oauth2:
-      clientId: # todo: tbd
-      clientSecret: # todo: tbd
-      clientTokenUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
-      jwkSetUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
 
   minioUser: "<path:devsecops/data/pre-prod/item-relationship-service#minio_user>"
   minioPassword: "<path:devsecops/data/pre-prod/item-relationship-service#minio_pw>"
+
+  keycloak:
+    oauth2:
+      clientId: "qweiokh" # todo: tbd
+      clientSecret: "18276313hb1kj-123123" # todo: tbd
+      clientTokenUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+      jwkSetUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
+
+  aasWrapper:
+    username: "<path:devsecops/data/pre-prod/item-relationship-service#aasWrapper_user>"
+    password: "<path:devsecops/data/pre-prod/item-relationship-service#aasWrapper_pw>"
 
   #######################
   # Minio Configuration #
