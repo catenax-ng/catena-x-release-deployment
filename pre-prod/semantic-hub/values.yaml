@@ -10,15 +10,15 @@ semantic-hub:
     idpIssuerUri: <path:semantics/data/authentication#keycloak-idp-preprod>
     idpClientId: <path:semantics/data/authentication#idpClientIdHub-preprod>
 
-  ingress:
-    urlPrefix: /hub
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      nginx.ingress.kubernetes.io/rewrite-target: /$2
-      nginx.ingress.kubernetes.io/use-regex: "true"
-      nginx.ingress.kubernetes.io/enable-cors: "true"
-      nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-      nginx.ingress.kubernetes.io/x-forwarded-prefix: /hub
+    ingress:
+      urlPrefix: /hub
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: /hub
 
   graphdb:
     image: ghcr.io/catenax-ng/jena-fuseki:4.1.0
