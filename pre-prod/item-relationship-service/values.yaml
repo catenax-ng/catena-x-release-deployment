@@ -40,8 +40,8 @@ irs:
 
   keycloak:
     oauth2:
-      clientId: "qweiokh" # todo: tbd
-      clientSecret: "18276313hb1kj-123123" # todo: tbd
+      clientId: # todo: tbd
+      clientSecret: # todo: tbd
       clientTokenUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
       jwkSetUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
 
