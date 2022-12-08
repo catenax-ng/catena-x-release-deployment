@@ -1,1 +1,6 @@
-tbd
+semantic-hub:
+  hub:
+    host: irs.pre-prod.demo.catena-x.net
+
+  graphdb:
+    password: <path:semantics/data/pre-prod/graphdb#graphdb_pw>"
