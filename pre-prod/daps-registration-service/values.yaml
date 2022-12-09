@@ -19,6 +19,7 @@ daps-registration:
       
   drs:
     secret:
+      secretName: "secret-daps-reg-svc"
       clientId: "<path:essential-services/data/daps-preprod#clientId>"
       clientSecret: "<path:essential-services/data/daps-preprod#clientSecret>"
       authServerUrl: "<path:essential-services/data/daps-reg-svc-pre-prod#auth-server-url>"
