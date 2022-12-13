@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: DFT-frontend
+  name: dft-frontend
 spec:
   project: project-dft-frontend
   source:
