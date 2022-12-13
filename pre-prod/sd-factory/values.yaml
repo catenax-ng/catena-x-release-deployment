@@ -25,9 +25,9 @@ sd-factory:
 
   sdfactory:
     secret:
-      clientId: "client_id"
-      clientSecret: "client_secret"
-      authServerUrl: "https://centralidp.pre-prod.demo.catena-x.net/auth"
-      realm: "CX-Central"
-      resource: "Cl2-CX-Portal"
-      custodianWalletUri: "https://managed-identity-wallets.pre-prod.demo.catena-x.net/api"
+      clientId: "<path:essential-services/data/custodian-pre-prod#clientId>"
+      clientSecret: "<path:essential-services/data/custodian-pre-prod#clientSecret>"
+      authServerUrl: "<path:essential-services/data/custodian-pre-prod#auth-server-url>"
+      realm: "<path:essential-services/data/custodian-pre-prod#realm>"
+      resource: "<path:essential-services/data/custodian-pre-prod#resource>"
+      custodianWalletUri: "<path:essential-services/data/custodian-pre-prod#uri>"
