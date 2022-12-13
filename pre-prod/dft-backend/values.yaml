@@ -1,17 +1,18 @@
-ingress:
-  enabled: true
-  host: dft-api.pre-prod.demo.catena-x.net
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/affinity: "cookie"
-    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
-    nginx.ingress.kubernetes.io/enable-cors: 'false'
+dft-backend:
+  ingress:
+    enabled: true
+    host: dft-api.pre-prod.demo.catena-x.net
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      nginx.ingress.kubernetes.io/affinity: "cookie"
+      nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+      nginx.ingress.kubernetes.io/enable-cors: 'false'
         
-  resources:
-  limits:
-    cpu: 400m
-    memory: 600Mi
-  requests:
-    cpu: 400m
-    memory: 600Mi
+    resources:
+    limits:
+      cpu: 400m
+      memory: 600Mi
+    requests:
+      cpu: 400m
+      memory: 600Mi
