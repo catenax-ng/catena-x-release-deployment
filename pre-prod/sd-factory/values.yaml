@@ -1,0 +1,33 @@
+sd-factory:
+  image:
+    repository: "ghcr.io/catenax-ng/tx-sd-factory/sdfactory"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "1.0.6"
+
+  ingress:
+    enabled: true
+    domain: "sdfactory.pre-prod.demo.catena-x.net"
+    className: "nginx"
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  name: "sdfactory"
+  portContainer: 8080
+  portService: 80
+  replicaCount: 1
+  issuer: "letsencrypt-prod"
+
+  sdfactory:
+    secret:
+      clientId: "client_id"
+      clientSecret: "client_secret"
+      authServerUrl: "https://centralidp.pre-prod.demo.catena-x.net/auth"
+      realm: "CX-Central"
+      resource: "Cl2-CX-Portal"
+      custodianWalletUri: "https://managed-identity-wallets.pre-prod.demo.catena-x.net/api"
