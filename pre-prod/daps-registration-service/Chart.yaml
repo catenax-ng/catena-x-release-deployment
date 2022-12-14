@@ -8,5 +8,5 @@ appVersion: "1.0.4"
 dependencies:
   - name: daps-reg-service
     alias: daps-registration
-    version: 1.0.4
-    repository: "https://catenax-ng.github.io/product-daps-registration-service/"
+    version: 1.0.5
+    repository: "https://eclipse-tractusx.github.io/charts/dev/"
