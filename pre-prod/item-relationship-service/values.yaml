@@ -40,8 +40,8 @@ irs:
 
   keycloak:
     oauth2:
-      clientId: # todo: tbd
-      clientSecret: # todo: tbd
+      clientId: "<path:traceability-irs/data/pre-prod/keycloak/oauth2#clientId>"
+      clientSecret: "<path:traceability-irs/data/pre-prod/keycloak/oauth2#clientSecret>"
       clientTokenUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
       jwkSetUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
 
