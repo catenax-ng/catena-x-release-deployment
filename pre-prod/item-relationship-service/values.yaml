@@ -58,8 +58,8 @@ irs:
   # Minio Configuration #
   #######################
   irs-minio:
-    minioUser: "<path:devsecops/data/pre-prod/item-relationship-service#minio_user>"
-    minioPassword: "<path:devsecops/data/pre-prod/item-relationship-service#minio_pw>"
+    minioUser: "<path:traceability-irs/data/pre-prod/minio#minio_user>"
+    minioPassword: "<path:traceability-irs/data/pre-prod/minio#minio_pw>"
 
   ##############################
   # EDC Postgres Configuration #
