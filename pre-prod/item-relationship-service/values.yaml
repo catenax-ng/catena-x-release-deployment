@@ -12,10 +12,9 @@ irs:
           - path: /
             pathType: Prefix
     tls:
-      tls:
-        - hosts:
-            - "irs.pre-prod.demo.catena-x.net"
-          secretName: tls-secret
+      - hosts:
+          - "irs.pre-prod.demo.catena-x.net"
+        secretName: tls-secret
 
   #####################
   # IRS Configuration #
@@ -25,81 +24,143 @@ irs:
   digitalTwinRegistry:
     url: "https://semantics.pre-prod.demo.catena-x.net/registry"
   semanticsHub:
-    url: # todo: tbd → A1ODT-1039
+    url: "https://semantics.pre-prod.demo.catena-x.net/hub"
     defaultUrns: >
       urn:bamm:io.catenax.serial_part_typization:1.0.0#SerialPartTypization
   #    ,urn:bamm:com.catenax.assembly_part_relationship:1.0.0#AssemblyPartRelationship
   bpdm:
     url: "https://partners-pool.pre-prod.demo.catena-x.net"
+
+  minioUser: "<path:traceability-irs/data/pre-prod/minio#minio_user>"
+  minioPassword: "<path:traceability-irs/data/pre-prod/minio#minio_pw>"
+
+  aasWrapper:
+    username: "<path:traceability-irs/data/pre-prod/aas#aasWrapper_user>"
+    password: "<path:traceability-irs/data/pre-prod/aas#aasWrapper_pw>"
+
   keycloak:
     oauth2:
-      clientId: # todo: tbd
-      clientSecret: # todo: tbd
+      clientId: "<path:traceability-irs/data/pre-prod/keycloak/oauth2#clientId>"
+      clientSecret: "<path:traceability-irs/data/pre-prod/keycloak/oauth2#clientSecret>"
       clientTokenUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
       jwkSetUri: "https://centralidp.pre-prod.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
 
-  minioUser: "<path:devsecops/data/pre-prod/item-releationship-service-frontend#minio_user>"
-  minioPassword: "<path:devsecops/data/pre-prod/item-releationship-service-frontend#minio_pw>"
+  ############################
+  # AASWrapper Configuration #
+  ############################
+  irs-aaswrapper:
+    edc:
+      api:
+        auth:
+          key: "<path:traceability-irs/data/pre-prod/edc#apikey>"
+
+  #######################
+  # Minio Configuration #
+  #######################
+  irs-minio:
+    minioUser: "<path:devsecops/data/pre-prod/item-relationship-service#minio_user>"
+    minioPassword: "<path:devsecops/data/pre-prod/item-relationship-service#minio_pw>"
+
+  ##############################
+  # EDC Postgres Configuration #
+  ##############################
+  postgresql:
+    auth:
+      username: edc
+      database: edc
+      postgresPassword: "<path:traceability-irs/data/pre-prod/edc#databasepassword>"
+      password: "<path:traceability-irs/data/pre-prod/edc#databasepassword>"
+
 
   ##################################
   # EDC Controlplane Configuration #
   ##################################
-  # todo: tbd
   edc-controlplane:
-    ingresses: [ ]
+    ingresses:
+      - enabled: true
+        hostname: "irs-consumer-controlplane.pre-prod.demo.catena-x.net"
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - ids
+          - data
+        className: ""
+        tls:
+          - hosts:
+              - "irs-consumer-controlplane.pre-prod.demo.catena-x.net"
+            secretName: tls-secret
+        certManager:
+          issuer: ""
+          clusterIssuer: ""
     edc:
       postgresql:
         user: edc
-        password:
+        password: "<path:traceability-irs/data/pre-prod/edc#databasepassword>"
       transfer:
         proxy:
           token:
             verifier:
               publickey:
-                alias:
+                alias: irs-pre-prod-daps-cert
             signer:
               privatekey:
-                alias:
+                alias: irs-pre-prod-daps-key
       api:
         auth:
-          key:
+          key: "<path:traceability-irs/data/pre-prod/edc#apikey>"
       controlplane:
-        url:
+        url: "https://irs-consumer-controlplane.pre-prod.demo.catena-x.net"
       dataplane:
-        url:
+        url: "https://irs-consumer-dataplane.pre-prod.demo.catena-x.net"
     configuration:
       properties: |-
-        edc.oauth.client.id=
-        edc.oauth.private.key.alias=
-        edc.oauth.provider.jwks.url=
-        edc.oauth.public.key.alias=
-        edc.oauth.token.url=
-        edc.vault.hashicorp.url=
-        edc.vault.hashicorp.token=
-        edc.vault.hashicorp.api.secret.path=
-        edc.data.encryption.keys.alias=
+        edc.oauth.client.id=3A:B7:C9:13:46:1E:1B:91:02:31:98:54:2F:9F:A8:CC:FC:14:52:BF:keyid:3A:B7:C9:13:46:1E:1B:91:02:31:98:54:2F:9F:A8:CC:FC:14:52:BF
+        edc.oauth.private.key.alias=irs-pre-prod-daps-key
+        edc.oauth.provider.jwks.url=https://daps.pre-prod.demo.catena-x.net/.well-known/jwks.json
+        edc.oauth.public.key.alias=irs-pre-prod-daps-cert
+        edc.oauth.token.url=https://daps.pre-prod.demo.catena-x.net/token
+        edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+        edc.vault.hashicorp.token=<path:traceability-irs/data/pre-prod/edc#vaultToken>
+        edc.vault.hashicorp.api.secret.path=/v1/traceability-irs
+        edc.data.encryption.keys.alias=irs-pre-prod-daps-key
         edc.data.encryption.algorithm=NONE
 
   ###############################
   # EDC Dataplane Configuration #
   ###############################
-  # todo: tbd
   edc-dataplane:
     edc:
       api:
         auth:
-          key:
-    ## Ingress declaration to expose the network service.
-    ingresses: [ ]
+          key: "<path:traceability-irs/data/pre-prod/edc#apikey>"
+    ingresses:
+      - enabled: true
+        hostname: "irs-consumer-dataplane.pre-prod.demo.catena-x.net"
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - public
+        className: "nginx"
+        tls:
+          - hosts:
+              - "irs-consumer-dataplane.pre-prod.demo.catena-x.net"
+            secretName: tls-secret
+        certManager:
+          issuer: ""
+          clusterIssuer: ""
 
     configuration:
       properties: |-
-        edc.oauth.client.id=
-        edc.oauth.private.key.alias=
+        edc.oauth.client.id=3A:B7:C9:13:46:1E:1B:91:02:31:98:54:2F:9F:A8:CC:FC:14:52:BF:keyid:3A:B7:C9:13:46:1E:1B:91:02:31:98:54:2F:9F:A8:CC:FC:14:52:BF
+        edc.oauth.private.key.alias=irs-pre-prod-daps-key
         edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
-        edc.oauth.provider.jwks.url=
-        edc.oauth.public.key.alias=
-        edc.oauth.token.url=
-        edc.vault.hashicorp.url=
-        edc.vault.hashicorp.token=
-        edc.vault.hashicorp.api.secret.path=
+        edc.oauth.provider.jwks.url=https://daps.pre-prod.demo.catena-x.net/.well-known/jwks.json
+        edc.oauth.public.key.alias=irs-pre-prod-daps-cert
+        edc.oauth.token.url=https://daps.pre-prod.demo.catena-x.net/token
+        edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+        edc.vault.hashicorp.token=<path:traceability-irs/data/pre-prod/edc#vaultToken>
+        edc.vault.hashicorp.api.secret.path=/v1/traceability-irs
