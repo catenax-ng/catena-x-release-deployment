@@ -14,4 +14,4 @@ spec:
     chart: managed-identity-wallets
   project: project-managed-identity-wallets
   syncPolicy:
-    automated:
+    automated: {}

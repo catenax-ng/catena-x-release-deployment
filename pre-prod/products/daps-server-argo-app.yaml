@@ -14,4 +14,4 @@ spec:
     chart: daps-server
   project: project-essential-services
   syncPolicy:
-    automated:
+    automated: {}
