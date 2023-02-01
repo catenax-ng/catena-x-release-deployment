@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: daps-registration-service
   labels:
-    appVersion_validated: false
+    appVersion_validated: "false"
 spec:
   destination:
     name: ''
