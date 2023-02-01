@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: daps-registration-service
+  labels:
+    appVersion_validated: false
+spec:
+  destination:
+    name: ''
+    namespace: product-essential-services
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 1.0.5
+    chart: daps-reg-service
+  project: project-essential-services
+  syncPolicy:
+    automated: {}

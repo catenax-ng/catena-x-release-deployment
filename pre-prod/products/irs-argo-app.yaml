@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: irs
+  labels:
+    appVersion_validated: false
+spec:
+  destination:
+    name: ''
+    namespace: product-traceability-irs
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 4.20
+    chart: irs-helm
+  project: project-traceability-irs
+  syncPolicy:
+    automated: {}

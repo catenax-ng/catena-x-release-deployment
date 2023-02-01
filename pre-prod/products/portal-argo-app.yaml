@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: portal
+  labels:
+    appVersion_validated: false
+spec:
+  destination:
+    name: ''
+    namespace: product-portal
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 1.0.0
+    chart: portal
+  project: project-portal
+  syncPolicy:
+    automated: {}
