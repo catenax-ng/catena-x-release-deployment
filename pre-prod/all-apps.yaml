@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pre-prod-apps
+spec:
+  destination:
+    name: ''
+    namespace: default
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: 'pre-prod/products'
+    repoURL: 'https://github.com/catenax-ng/catena-x-release-deployment'
+    targetRevision: HEAD
+  project: default
+  syncPolicy:
+    automated:
