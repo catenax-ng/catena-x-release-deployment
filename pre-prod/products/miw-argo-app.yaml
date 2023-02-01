@@ -12,7 +12,7 @@ spec:
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
     targetRevision: 0.6.3
     chart: managed-identity-wallets
-  project: default
+  project: project-managed-identity-wallets
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
