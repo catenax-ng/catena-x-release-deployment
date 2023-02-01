@@ -12,7 +12,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
-    targetRevision: 4.20
+    targetRevision: 4.2.0
     chart: irs-helm
   project: project-traceability-irs
   syncPolicy:
