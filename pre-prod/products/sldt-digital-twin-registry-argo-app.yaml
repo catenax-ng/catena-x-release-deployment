@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: digital-twin-registry
+  labels:
+    appVersion_validated: "true"
+spec:
+  destination:
+    name: ''
+    namespace: product-semantics
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 0.2.3
+    chart: registry
+  project: project-semantics
+  syncPolicy:
+    automated: {}
