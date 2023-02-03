@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dft-backend
+  labels:
+    appVersion_validated: "false"
+spec:
+  destination:
+    name: ''
+    namespace: product-dft
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 1.8.1
+    chart: dft-backend
+  project: product-dft
+  syncPolicy:
+    automated: {}
