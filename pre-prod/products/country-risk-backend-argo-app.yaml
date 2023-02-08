@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: country-risk-backend
+  labels:
+    appVersion_validated: "false"
+spec:
+  destination:
+    namespace: product-value-added-service
+    server: 'https://kubernetes.default.svc'
+  source:
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 2.0.6
+    chart: vas
+  project: project-value-added-service
+  syncPolicy:
+    automated: {}
