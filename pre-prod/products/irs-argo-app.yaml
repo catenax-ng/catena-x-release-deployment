@@ -6,13 +6,11 @@ metadata:
     appVersion_validated: "false"
 spec:
   destination:
-    name: ''
     namespace: product-traceability-irs
     server: 'https://kubernetes.default.svc'
   source:
-    path: ''
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
-    targetRevision: 2.1.0
+    targetRevision: 4.3.0
     chart: irs-helm
   project: project-traceability-irs
   syncPolicy:
