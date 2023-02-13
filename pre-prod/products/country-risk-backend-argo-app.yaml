@@ -10,8 +10,8 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
-    targetRevision: 2.0.6
-    chart: vas
+    targetRevision: 2.0.7
+    chart: country-risk-backend
   project: project-value-added-service
   syncPolicy:
     automated: {}
