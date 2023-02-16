@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
     targetRevision: 1.1.0
-    chart: tx-traceability-foss-frontend
+    chart: traceability-foss-frontend
   project: project-traceability-foss
   syncPolicy:
     automated: {}
