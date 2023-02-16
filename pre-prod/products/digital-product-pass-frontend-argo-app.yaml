@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: digital-product-pass-backend
+spec:
+  destination:
+    namespace: product-material-pass
+    server: 'https://kubernetes.default.svc'
+  source:
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 0.2.0
+    chart: consumer-ui
+  project: project-material-pass
+  syncPolicy:
+    automated: {}
