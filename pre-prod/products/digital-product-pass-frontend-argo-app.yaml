@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: digital-product-pass-backend
+  name: digital-product-pass-frontend
 spec:
   destination:
     namespace: product-material-pass
