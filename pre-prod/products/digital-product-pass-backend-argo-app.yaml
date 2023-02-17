@@ -8,7 +8,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
-    targetRevision: 0.2.0
+    targetRevision: 0.2.1
     chart: consumer-backend
   project: project-material-pass
   syncPolicy:
