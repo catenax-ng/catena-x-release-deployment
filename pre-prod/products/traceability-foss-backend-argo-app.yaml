@@ -10,7 +10,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
-    targetRevision: 1.1.0
+    targetRevision: 1.1.1
     chart: traceability-foss-backend
   project: project-traceability-foss
   syncPolicy:
