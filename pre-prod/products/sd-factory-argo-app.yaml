@@ -12,7 +12,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
-    targetRevision: 1.2.1
+    targetRevision: 2.0.1
     chart: sdfactory
   project: project-essential-services
   syncPolicy:
