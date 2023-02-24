@@ -10,7 +10,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
-    targetRevision: 4.0.5
+    targetRevision: 4.0.6
     chart: bpdm-pool
   project: project-bpdm
   syncPolicy:
