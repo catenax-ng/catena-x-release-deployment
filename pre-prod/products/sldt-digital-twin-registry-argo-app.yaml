@@ -16,7 +16,7 @@ spec:
       parameters:
       - name: "registry.imagePullSecrets[0].name"
         value: "machineuser-pull-secret-ro"
-      - name: "hub.image"
+      - name: "registry.image"
         value: "ghcr.io/catenax-ng/registry:0.2.0-M3-multi-tenancy"
   project: project-semantics
   syncPolicy:
