@@ -6,7 +6,7 @@ metadata:
     appVersion_validated: "true"
 spec:
   destination:
-    namespace: product-bpdm-pool
+    namespace: product-bpdm
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
