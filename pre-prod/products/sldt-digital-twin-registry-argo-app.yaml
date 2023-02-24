@@ -14,10 +14,10 @@ spec:
     chart: registry
     helm:
       parameters:
-      - name: "registry.imagePullSecrets[0].name"
-        value: "machineuser-pull-secret-ro"
-      - name: "registry.image"
-        value: "ghcr.io/catenax-ng/registry:0.2.0-M3-multi-tenancy"
+        - name: "registry.imagePullSecrets[0].name"
+          value: "machineuser-pull-secret-ro"
+        - name: "registry.image"
+          value: "ghcr.io/catenax-ng/registry:0.2.0-M3-multi-tenancy"
   project: project-semantics
   syncPolicy:
     automated: {}

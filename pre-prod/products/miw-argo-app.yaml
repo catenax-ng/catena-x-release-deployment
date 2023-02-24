@@ -10,7 +10,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
-    targetRevision: 0.6.6
+    targetRevision: 0.7.2
     chart: managed-identity-wallets
   project: project-managed-identity-wallets
   syncPolicy:
