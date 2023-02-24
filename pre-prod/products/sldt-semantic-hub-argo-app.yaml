@@ -16,6 +16,8 @@ spec:
       parameters:
         - name: "hub.imagePullSecrets[0].name"
           value: "machineuser-pull-secret-ro"
+        - name: "hub.image"
+          value: "ghcr.io/catenax-ng/semantic-hub:0.1.0-M2"
   project: project-semantics
   syncPolicy:
     automated: {}
