@@ -6,14 +6,16 @@ metadata:
     appVersion_validated: "true"
 spec:
   destination:
-    name: ''
     namespace: product-semantics
     server: 'https://kubernetes.default.svc'
   source:
-    path: ''
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
     targetRevision: 0.1.3
     chart: semantic-hub
+    helm:
+      parameters:
+        - name: "hub.imagePullSecrets[0].name"
+          value: "machineuser-pull-secret-ro"
   project: project-semantics
   syncPolicy:
     automated: {}

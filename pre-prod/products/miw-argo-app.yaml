@@ -6,11 +6,9 @@ metadata:
     appVersion_validated: "true"
 spec:
   destination:
-    name: ''
     namespace: product-managed-identity-wallets
     server: 'https://kubernetes.default.svc'
   source:
-    path: ''
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
     targetRevision: 0.6.6
     chart: managed-identity-wallets

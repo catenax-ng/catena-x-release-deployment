@@ -6,11 +6,9 @@ metadata:
     appVersion_validated: "true"
 spec:
   destination:
-    name: ''
     namespace: product-semantics
     server: 'https://kubernetes.default.svc'
   source:
-    path: ''
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
     targetRevision: 0.2.3
     chart: registry
