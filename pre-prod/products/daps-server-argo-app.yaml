@@ -14,6 +14,11 @@ spec:
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
     targetRevision: 1.7.3
     chart: daps-server
+    helm:
+      values: |
+        image:
+          repository: "ghcr.io/fraunhofer-aisec/omejdn-server"
+          tag: "1.7.1"
   project: project-essential-services
   syncPolicy:
     automated: {}
