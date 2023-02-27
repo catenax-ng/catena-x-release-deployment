@@ -12,7 +12,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
-    targetRevision: 1.0.0
+    targetRevision: 1.0.1
     chart: sharedidp
   project: project-portal
   syncPolicy:
