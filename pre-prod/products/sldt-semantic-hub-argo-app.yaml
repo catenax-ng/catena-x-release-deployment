@@ -18,6 +18,10 @@ spec:
           value: "machineuser-pull-secret-ro"
         - name: "hub.image"
           value: "ghcr.io/catenax-ng/semantic-hub:0.1.0-M3"
+        - name: "graphdb.image"
+          value: "ghcr.io/catenax-ng/jena-fuseki:4.1.0"
+        - name: "graphdb.imagePullSecrets[0].name"
+          value: "machineuser-pull-secret-ro"
   project: project-semantics
   syncPolicy:
     automated: {}
