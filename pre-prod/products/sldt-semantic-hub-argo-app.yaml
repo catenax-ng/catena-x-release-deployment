@@ -10,7 +10,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
-    targetRevision: 0.1.5
+    targetRevision: 0.1.6
     chart: semantic-hub
     helm:
       parameters:
