@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: edc-dataplane
+  labels:
+    appVersion_validated: "true"
+spec:
+  destination:
+    name: ''
+    namespace: product-edc
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 0.1.7
+    chart: edc-dataplane
+  project: project-edc
+  syncPolicy:
+    automated: {}
