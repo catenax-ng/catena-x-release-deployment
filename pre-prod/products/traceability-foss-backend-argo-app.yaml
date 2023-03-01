@@ -9,8 +9,8 @@ spec:
     namespace: product-traceability-foss
     server: 'https://kubernetes.default.svc'
   source:
-    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
-    targetRevision: 1.1.1
+    repoURL: 'https://eclipse-tractusx.github.io/traceability-foss-backend'
+    targetRevision: 1.1.2
     chart: traceability-foss-backend
   project: project-traceability-foss
   syncPolicy:
