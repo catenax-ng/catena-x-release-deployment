@@ -9,7 +9,7 @@ spec:
     namespace: product-traceability-irs
     server: 'https://kubernetes.default.svc'
   source:
-    repoURL: 'https://eclipse-tractusx.github.io/item-relationship-service'
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
     targetRevision: 4.3.1
     chart: irs-helm
   project: project-traceability-irs
