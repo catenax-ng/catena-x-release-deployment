@@ -12,12 +12,6 @@ spec:
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
     targetRevision: 0.2.13
     chart: registry
-    helm:
-      parameters:
-        - name: "registry.imagePullSecrets[0].name"
-          value: "machineuser-pull-secret-ro"
-        - name: "registry.image"
-          value: "ghcr.io/catenax-ng/registry:0.2.0-M9-multi-tenancy"
   project: project-semantics
   syncPolicy:
     automated: {}
