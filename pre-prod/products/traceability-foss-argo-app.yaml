@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: traceability-foss-backend
+  name: traceability-foss
   labels:
     appVersion_validated: "false"
 spec:
@@ -10,8 +10,8 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
-    targetRevision: 1.1.2
-    chart: traceability-foss-backend
+    targetRevision: 1.3.5
+    chart: traceability-foss
   project: project-traceability-foss
   syncPolicy:
     automated: {}
