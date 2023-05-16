@@ -12,8 +12,8 @@ spec:
   source:
     path: ''
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
-    targetRevision: 1.8.1
-    chart: dft-backend
+    targetRevision: 2.0.0
+    chart: dftbackend
   project: product-dft
   syncPolicy:
     automated: {}
