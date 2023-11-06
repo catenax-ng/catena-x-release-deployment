@@ -1,0 +1,83 @@
+provider-agent:
+  nameOverride: agent-connector-provider
+  fullnameOverride: agent-connector-provider
+  vault:
+    hashicorp:
+      enabled: true
+      url: https://vault.demo.catena-x.net
+      token: s.XRMTpxjFiEmCN6iPg4itBdXv
+      healthCheck:
+        enabled: false
+        standbyOk: true
+      paths:
+        secret: /v1/knowledge
+    secretNames:
+      transferProxyTokenSignerPrivateKey: oem-key
+      transferProxyTokenSignerPublicKey: oem-cert
+      transferProxyTokenEncryptionAesKey: oem-symmetric-key
+  controlplane:
+    securityContext:
+      readOnlyRootFilesystem: false
+    image:
+      pullPolicy: Always
+    ssi:
+      miw:
+        url: "https://managed-identity-wallets-new.stable.demo.catena-x.net"
+        authorityId: "BPNL00000003CRHK"
+      oauth:
+        tokenurl: "https://centralidp.stable.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+        client:
+          id: "sa4"
+          secretAlias: "stable-provider-miw"
+    endpoints:
+      management:
+        authKey: "dwt6stvctwewv3vtf624"
+    ingresses:
+      - enabled: true
+        hostname: "agent-provider-cp.stable.demo.catena-x.net"
+        endpoints:
+          - protocol
+          - management
+          - control
+        tls:
+          enabled: true
+  dataplanes:
+    dataplane:
+      securityContext:
+        readOnlyRootFilesystem: false
+      image:
+        pullPolicy: Always
+      configs:
+        dataspace.ttl: |-
+          ################################################
+          # Catena-X BT Agent Bootstrap
+          ################################################
+          @prefix : <GraphAsset?local=Dataspace> .
+          @prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#> .
+          @prefix cx-common: <https://w3id.org/catenax/ontology/common#> .
+          @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+          @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+          @prefix bpnl: <bpn:legal:> .
+          @base <GraphAsset?local=Dataspace> .
+
+          bpnl:BPNL000000000001 cx:hasBusinessPartnerNumber "BPNL000000000001"^^xsd:string;
+                                cx:hasConnector <edcs://agent-provider-cp.stable.demo.catena-x.net>;
+                                cx-common:hasConnector <edcs://agent-provider-cp.stable.demo.catena-x.net>.
+
+          bpnl:BPNL0000000005VV cx:hasBusinessPartnerNumber "BPNL0000000005VV"^^xsd:string;
+                                cx:hasConnector <edcs://agent-consumer-cp.stable.demo.catena-x.net>;
+                                cx-common:hasConnector <edcs://agent-consumer-cp.stable.demo.catena-x.net>.
+      agent:
+        connectors:
+          - https://agent-provider-cp.stable.demo.catena-x.net
+
+      ingresses:
+        - enabled: true
+          hostname: "agent-provider-dp.stable.demo.catena-x.net"
+          endpoints:
+            - public
+            - default
+            - control
+            - callback
+          tls:
+            enabled: true
