@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: discoveryfinder-service
+  namespace: argocd
+spec:
+  project: project-semantics
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: product-semantics
+  source:
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 0.1.11
+    chart: discoveryfinder
+    plugin:
+      env:
+        - name: HELM_VALUES
+          value: |
+            discoveryfinder:
+              enablePostgres: true
+              image:
+                imagePullPolicy: IfNotPresent
+              replicaCount: 1
+              containerPort: 4243
+              host: semantics.stable.demo.catena-x.net
+              ## If 'authentication' is set to false, no OAuth authentication is enforced
+              authentication: true
+              properties:
+                discoveryfinder:
+                  # Initial Endpoint for edc discovery with type bpn
+                  initialEndpoints:
+                    - type: bpn
+                      endpointAddress: https://portal-backend.stable.demo.catena-x.net/api/administration/Connectors/discovery
+                      description: Service to discover connector endpoints based on bpns
+                      documentation: https://portal-backend.stable.demo.catena-x.net/api/administration/swagger/index.html
+              idp:
+                issuerUri: "https://centralidp.stable.demo.catena-x.net/auth/realms/CX-Central"
+                publicClientId: '<path:semantics/data/authentication#idpClientIdDiscoveryFinder>'
+              dataSource:
+                driverClassName: org.postgresql.Driver
+                sqlInitPlatform: pg
+                ## The url, user, and password parameter will be ignored if 'enablePostgres' is set to true.
+                ## In that case the postgresql auth parameters are used.
+                url: jdbc:postgresql://semantic-services-postgresql:5432/discoveryfinder
+                user: catenax
+                password: '<path:semantics/data/authentication#dbpassword>'
+              ingress:
+                enabled: true
+                tls: true
+              postgresql:
+                auth:
+                  username: catenax
+                  password: '<path:semantics/data/authentication#dbpassword>'
+                  database: discoveryfinder
+

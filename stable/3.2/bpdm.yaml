@@ -1,0 +1,264 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bpdm
+  namespace: argocd
+spec:
+  project: project-bpdm
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: product-bpdm
+  source:
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 3.0.4
+    chart: bpdm
+    plugin:
+      env:
+        - name: HELM_VALUES
+          value: |
+            bpdm-gate:
+              fullnameOverride: bpdm-stable-gate-test-company
+              enabled: true
+              replicaCount: 1
+              resources:
+                limits:
+                  cpu: 800m
+                  memory: 2Gi
+                requests:
+                  cpu: 300m
+                  memory: 2Gi
+              springProfiles:
+                - auth
+              ingress:
+                enabled: true
+                hosts:
+                  - host: business-partners.stable.demo.catena-x.net
+                    paths:
+                      - path: "/companies/test-company"
+                        pathType: Prefix
+                tls:
+                  - secretName: tls-secret
+                    hosts:
+                      - business-partners.stable.demo.catena-x.net
+              livenessProbe:
+                httpGet:
+                  path: "/companies/test-company/actuator/health/liveness"
+              readinessProbe:
+                httpGet:
+                  path: "/companies/test-company/actuator/health/readiness"
+              startupProbe:
+                httpGet:
+                  path: "/companies/test-company/actuator/health/readiness"
+              applicationConfig:
+                server:
+                  servlet:
+                    context-path: "/companies/test-company"
+                bpdm:
+                  gate-security:
+                    changeCompanyInputData: update_company_data
+                    changeCompanyOutputData: update_company_data
+                    readCompanyInputData: view_company_data
+                    readCompanyOutputData: view_shared_data
+                  security:
+                    auth-server-url: https://centralidp.stable.demo.catena-x.net/auth
+                    realm: CX-Central
+                    client-id: Cl16-CX-BPDMGate
+                springdoc:
+                  swagger-ui:
+                    oauth:
+                      client-id: Cl2-CX-Portal
+              applicationSecrets:
+                spring:
+                  datasource:
+                    password: '<path:bpdm/data/stable/pool/postgresql#password>'
+              postgres:
+                enabled: false
+            bpdm-pool:
+              fullnameOverride: bpdm-stable-pool
+              enabled: true
+              springProfiles:
+                - auth
+              resources:
+                limits:
+                  cpu: 800m
+                  memory: 2Gi
+                requests:
+                  cpu: 300m
+                  memory: 2Gi
+              ingress:
+                enabled: true
+                annotations:
+                  kubernetes.io/ingress.class: nginx
+                  nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+                hosts:
+                  - host: business-partners.stable.demo.catena-x.net
+                    paths:
+                      - path: /pool
+                        pathType: Prefix
+                tls:
+                  - secretName: tls-secret
+                    hosts:
+                      - business-partners.stable.demo.catena-x.net
+              livenessProbe:
+                httpGet:
+                  path: "/pool/actuator/health/liveness"
+              readinessProbe:
+                httpGet:
+                  path: "/pool/actuator/health/readiness"
+              startupProbe:
+                httpGet:
+                  path: "/pool/actuator/health/readiness"
+              applicationConfig:
+                server:
+                  servlet:
+                    context-path: "/pool"
+                bpdm:
+                  pool-security:
+                    readPoolPartnerData: view_company_data
+                    changePoolPartnerData: add_company_data
+                    readMetaData: view_company_data
+                    changeMetaData: add_company_data
+                    manageOpensearch: add_company_data
+                  opensearch:
+                    # every hour at minute 30
+                    export-scheduler-cron-expr: 0 30 * * * *
+                  security:
+                    auth-server-url: https://centralidp.stable.demo.catena-x.net/auth
+                    realm: CX-Central
+                    client-id: Cl7-CX-BPDM
+                springdoc:
+                  swagger-ui:
+                    oauth:
+                      client-id: Cl2-CX-Portal
+              applicationSecrets:
+                spring:
+                  datasource:
+                    password: '<path:bpdm/data/stable/pool/postgresql#password>'
+              opensearch:
+                fullnameOverride: "bpdm-stable-opensearch"
+
+            bpdm-bridge-dummy:
+              fullnameOverride: bpdm-stable-bridge
+              springProfiles:
+                - auth
+              ingress:
+                enabled: true
+                annotations:
+                  kubernetes.io/ingress.class: nginx
+                  nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+                hosts:
+                  - host: business-partners.stable.demo.catena-x.net
+                    paths:
+                      - path: /bridge
+                        pathType: Prefix
+                tls:
+                  - secretName: tls-secret
+                    hosts:
+                      - business-partners.stable.demo.catena-x.net
+              livenessProbe:
+                httpGet:
+                  path: "/bridge/actuator/health/liveness"
+              readinessProbe:
+                httpGet:
+                  path: "/bridge/actuator/health/readiness"
+              startupProbe:
+                httpGet:
+                  path: "/bridge/actuator/health/readiness"
+              resources:
+                limits:
+                  cpu: 800m
+                  memory: 2Gi
+                requests:
+                  cpu: 300m
+                  memory: 2Gi
+              applicationConfig:
+                server:
+                  servlet:
+                    context-path: "/bridge"
+                bpdm:
+                  bridge:
+                    syncAuthorities: add_company_data
+                  pool:
+                    base-url: "http://bpdm-stable-pool:8080/pool"
+                  gate:
+                    base-url: "http://bpdm-stable-gate-test-company:8080/companies/test-company"
+                  security:
+                    auth-server-url: https://centralidp.stable.demo.catena-x.net/auth
+                    realm: CX-Central
+                    client-id: Cl7-CX-BPDM
+                spring:
+                  security:
+                    oauth2:
+                      client:
+                        registration:
+                          bridge-client:
+                            # Client ID used for getting token different from own Client to validate tokens
+                            client-id: sa-cl7-cx-7
+                        provider:
+                          catena-keycloak-provider:
+                            issuer-uri: https://centralidp.stable.demo.catena-x.net/auth/realms/CX-Central
+              applicationSecrets:
+                spring:
+                  datasource:
+                    password: '<path:bpdm/data/stable/pool/postgresql#password>'
+                bpdm:
+                  security:
+                    credentials:
+                      secret: '<path:bpdm/data/stable/admin-user#client-secret>'
+
+            opensearch:
+              masterService: ""
+              fullnameOverride: "bpdm-stable-opensearch"
+              enabled: true
+              replicas: 1
+              protocol: http
+              roles:
+                - master
+                - ingest
+                - data
+              resources:
+                limits:
+                  cpu: 300m
+                  memory: 2Gi
+                requests:
+                  cpu: 100m
+                  memory: 2Gi
+              config:
+                opensearch.yml: |
+                  # Bind to all interfaces because we don't know what
+                  # IP address Docker will assign to us.
+                  network.host: 0.0.0.0
+                  # Disable security
+                  plugins.security.disabled: true
+              securityConfig:
+                enabled: false
+              extraInitContainers:
+                # Image that performs the sysctl operation to modify Kernel settings
+                # needed sometimes to avoid boot errors
+                - name: sysctl
+                  image: docker.io/bitnami/bitnami-shell:10-debian-10-r199
+                  imagePullPolicy: "IfNotPresent"
+                  command:
+                    - /bin/bash
+                    - -ec
+                    - |
+                      CURRENT=`sysctl -n vm.max_map_count`;
+                      DESIRED="262144";
+                      if [ "$DESIRED" -gt "$CURRENT" ]; then
+                          sysctl -w vm.max_map_count=262144;
+                      fi;
+                      CURRENT=`sysctl -n fs.file-max`;
+                      DESIRED="65536";
+                      if [ "$DESIRED" -gt "$CURRENT" ]; then
+                          sysctl -w fs.file-max=65536;
+                      fi;
+                  securityContext:
+                    runAsUser: 0
+                    privileged: true
+
+            postgres:
+              auth:
+                postgresPassword: '<path:bpdm/data/stable/pool/postgresql#postgres-password>'
+                password: '<path:bpdm/data/stable/pool/postgresql#password>'
+              chart: bpdm
+

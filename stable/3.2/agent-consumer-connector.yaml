@@ -1,0 +1,115 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: agent-consumer-connector
+  namespace: argocd
+spec:
+  destination:
+    namespace: product-knowledge
+    server: https://kubernetes.default.svc
+  project: project-knowledge
+  source:
+    repoURL: https://eclipse-tractusx.github.io/charts/dev
+    targetRevision: 1.9.8
+    chart: agent-connector-memory
+    plugin:
+      env:
+        - name: HELM_VALUES
+          value: |
+            participant:
+              id: BPNL0000000005VV
+            nameOverride: agent-connector-consumer
+            fullnameOverride: agent-connector-consumer
+            vault:
+              hashicorp:
+                enabled: true
+                url: https://vault.demo.catena-x.net
+                token: s.XRMTpxjFiEmCN6iPg4itBdXv
+                healthCheck:
+                  enabled: false
+                  standbyOk: true
+                paths:
+                  secret: /v1/knowledge
+              secretNames:
+                transferProxyTokenSignerPrivateKey: consumer-key
+                transferProxyTokenSignerPublicKey: consumer-cert
+                transferProxyTokenEncryptionAesKey: consumer-symmetric-key
+            controlplane:
+              securityContext:
+                readOnlyRootFilesystem: false
+              image:
+                pullPolicy: Always
+              ssi:
+                miw:
+                  # -- MIW URL
+                  url: "https://managed-identity-wallets-new.stable.demo.catena-x.net"
+                  # -- The BPN of the issuer authority
+                  authorityId: "BPNL00000003CRHK"
+                oauth:
+                  # -- The URL (of KeyCloak), where access tokens can be obtained
+                  tokenurl: "https://centralidp.stable.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+                  client:
+                    # -- The client ID for KeyCloak
+                    id: "sa5"
+                    # -- The alias under which the client secret is stored in the vault.
+                    secretAlias: "stable-consumer-miw"
+              endpoints:
+                management:
+                  authKey: "dwt6stvctwewv3vtf624"
+              ## Ingress declaration to expose the network service.
+              ingresses:
+                - enabled: true
+                  # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
+                  hostname: "agent-consumer-cp.stable.demo.catena-x.net"
+                  # -- EDC endpoints exposed by this ingress resource
+                  endpoints:
+                    - protocol
+                    - management
+                    - control
+                  # -- Enables TLS on the ingress resource
+                  tls:
+                    enabled: true
+            dataplanes:
+              dataplane:
+                securityContext:
+                  readOnlyRootFilesystem: false
+                image:
+                  pullPolicy: Always
+                configs:
+                  dataspace.ttl: |-
+                    ################################################
+                    # Catena-X BT Agent Bootstrap
+                    ################################################
+                    @prefix : <GraphAsset?local=Dataspace> .
+                    @prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#> .
+                    @prefix cx-common: <https://w3id.org/catenax/ontology/common#> .
+                    @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+                    @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+                    @prefix bpnl: <bpn:legal:> .
+                    @base <GraphAsset?local=Dataspace> .
+
+                    bpnl:BPNL000000000001 cx:hasBusinessPartnerNumber "BPNL000000000001"^^xsd:string;
+                                          cx:hasConnector <edcs://agent-provider-cp.stable.demo.catena-x.net>;
+                                          cx-common:hasConnector <edcs://agent-provider-cp.stable.demo.catena-x.net>.
+
+                    bpnl:BPNL0000000005VV cx:hasBusinessPartnerNumber "BPNL0000000005VV"^^xsd:string;
+                                          cx:hasConnector <edcs://agent-consumer-cp.stable.demo.catena-x.net>;
+                                          cx-common:hasConnector <edcs://agent-consumer-cp.stable.demo.catena-x.net>.
+                agent:
+                  # synchronization: 360000
+                  connectors:
+                    - https://agent-provider-cp.stable.demo.catena-x.net
+
+                ## Ingress declaration to expose the network service.
+                ingresses:
+                  - enabled: true
+                    hostname: "agent-consumer-dp.stable.demo.catena-x.net"
+                    # -- EDC endpoints exposed by this ingress resource
+                    endpoints:
+                      - public
+                      - default
+                      - control
+                      - callback
+                    # -- Enables TLS on the ingress resource
+                    tls:
+                      enabled: true

@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ids-data-exchange-test-service.yaml
+  namespace: argocd
+spec:
+  project: project-essential-services
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: product-essential-services
+  source:
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 1.0.9
+    chart: data-exchange
+    helm:
+      parameters:
+        - name: dataex.secret.e2edetsurl
+          value: 'https://dataex.stable.demo.catena-x.net'
+        - name: dataex.secret.edcapikey
+          value: jzWterGZLGxMT4QbRBh4WLlyqlmmSXqXBLGiOkZlS0fYmQUpv7
+        - name: dataex.secret.edcapikeyheader
+          value: X-Api-Key
+        - name: dataex.secret.edchostname
+          value: 'https://tsyste-f783465e-us.local.cx.dih-cloud.com'
+      values: |-
+        ingress:
+          enabled: true
+          annotations:
+            nginx.ingress.kubernetes.io/use-regex: "true"
+            cert-manager.io/cluster-issuer: "letsencrypt-prod"
+          className: "nginx"
+          host: "dataex.stable.demo.catena-x.net"
+          hosts:
+            - host: dataex.stable.demo.catena-x.net
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+
+          tls:
+            enabled: true
+            secretName: tls-secret
+            host: "dataex.stable.demo.catena-x.net"
+
