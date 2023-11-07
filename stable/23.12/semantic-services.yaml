@@ -1,0 +1,69 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: semantic-services
+  namespace: argocd
+spec:
+  project: project-semantics
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: product-semantics
+  source:
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 0.1.29
+    chart: semantic-hub
+    plugin:
+      env:
+        - name: HELM_VALUES
+          value: |
+            hub:
+              enableKeycloak: false
+              imagePullPolicy: Always
+              replicaCount: 1
+              containerPort: 4242
+              ## Use in-memory triple store that is not persistent
+              embeddedTripleStore: false
+              host: semantics-23-12.stable.demo.catena-x.net
+              ## If 'authentication' is set to false, no OAuth authentication is enforced
+              authentication: true
+              idpIssuerUri: https://centralidp-23-12.stable.demo.catena-x.net/auth/realms/CX-Central
+              idpClientId: Cl3-CX-Semantic
+              ## Ignored if 'graphdb.enabled' is set to true
+              graphdbBaseUrl: http://graphdb:3030
+              service:
+                port: 8080
+                type: ClusterIP
+              ingress:
+                ## Enable ingress for the Semantic Hub
+                enabled: true
+                ## Enable TLS (e.g. by using cert-manager)
+                tls: true
+                ## The secret name that contains the necessary 'tls.crt' and 'tls.key' entries
+                ## When using cert-manager this secret is created automatically
+                urlPrefix: /hub
+                tlsSecretName: hub-certificate-secret
+                className: nginx
+                annotations:
+                  cert-manager.io/cluster-issuer: letsencrypt-prod
+                  nginx.ingress.kubernetes.io/rewrite-target: /$$2
+                  nginx.ingress.kubernetes.io/use-regex: "true"
+                  nginx.ingress.kubernetes.io/enable-cors: "true"
+                  nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+                  nginx.ingress.kubernetes.io/x-forwarded-prefix: /hub
+            graphdb:
+              ## Include Fuski deployment or deploy separately
+              enabled: true
+              image: ghcr.io/catenax-ng/jena-fuseki:4.7.0
+              storageClassName: azurefile
+              pvcAccessModes:
+                - ReadWriteOnce
+              resources:
+                limits:
+                  memory: "1024Mi"
+                requests:
+                  memory: "512Mi"
+              service:
+                port: 3030
+            enableKeycloak: false
+            keycloak:
+              enabled: false

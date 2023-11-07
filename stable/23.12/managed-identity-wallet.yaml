@@ -1,0 +1,51 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: managed-identity-wallet
+  namespace: argocd
+spec:
+  project: project-managed-identity-wallets
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: product-managed-identity-wallets
+  source:
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 0.1.0-rc.3
+    chart: managed-identity-wallet
+    helm:
+      parameters:
+        - name: keycloak.enabled
+          value: 'false'
+        - name: ingress.enabled
+          value: 'true'
+        - name: miw.host
+          value: managed-identity-wallets-new-23-12.stable.demo.catena-x.net
+        - name: miw.authorityWallet.bpn
+          value: BPNL00000003CRHK
+        - name: miw.keycloak.realm
+          value: CX-Central
+        - name: miw.database.name
+          value: miw
+        - name: miw.database.user
+          value: miw
+        - name: postgresql.auth.database
+          value: miw
+        - name: miw.keycloak.clientId
+          value: Cl5-CX-Custodian
+        - name: miw.keycloak.url
+          value: 'https://centralidp-23-12.stable.demo.catena-x.net/auth'
+        - name: image.tag
+          value: 0.2.0
+        - name: miw.ssi.enforceHttpsInDidWebResolution
+          value: 'true'
+      values: |-
+        ingress:
+          hosts:
+            - host: 'managed-identity-wallets-new-23-12.stable.demo.catena-x.net'
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: ingress-secret
+              hosts:
+                - 'managed-identity-wallets-new-23-12.stable.demo.catena-x.net'

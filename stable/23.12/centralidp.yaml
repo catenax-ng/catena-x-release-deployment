@@ -1,0 +1,79 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: centralidp
+  namespace: argocd
+spec:
+  project: project-portal
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: product-portal
+  source:
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 1.2.0
+    chart: centralidp
+    plugin:
+      env:
+        - name: HELM_VALUES
+          value: |
+            keycloak:
+              initContainers:
+                - name: import
+                  image: tractusx/portal-iam-consortia:v1.2.0
+                  imagePullPolicy: Always
+                  command:
+                    - sh
+                  args:
+                    - -c
+                    - |
+                      echo "Copying themes..."
+                      cp -R /import/themes/catenax-central/* /themes
+                      echo "Copying realms..."
+                      cp -R /import/catenax-central/stable/realms/* /realms
+                  volumeMounts:
+                  - name: themes
+                    mountPath: "/themes"
+                  - name: realms
+                    mountPath: "/realms"
+              ingress:
+                enabled: true
+                ingressClassName: nginx
+                hostname: centralidp-23-12.stable.demo.catena-x.net
+                annotations:
+                  cert-manager.io/cluster-issuer: letsencrypt-prod
+                  nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+                  nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS
+                  nginx.ingress.kubernetes.io/cors-allow-origin: https://centralidp-23-12.stable.demo.catena-x.net, http://localhost:3000
+                  nginx.ingress.kubernetes.io/enable-cors: "true"
+                  nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+                  nginx.ingress.kubernetes.io/proxy-buffering: "on"
+                  nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
+                  nginx.ingress.kubernetes.io/use-regex: "true"
+                tls: true
+            secrets:
+              auth:
+                existingSecret:
+                  adminpassword: "<path:portal/data/stable/iam/centralidp-keycloak#admin-password>"
+                  managementpassword: "<path:portal/data/stable/iam/centralidp-keycloak#management-password>"
+              postgresql:
+                auth:
+                  existingSecret:
+                    postgrespassword: "<path:portal/data/stable/iam/centralidp-postgres#postgres-password>"
+                    password: "<path:portal/data/stable/iam/centralidp-postgres#password>"
+                    replicationPassword: "<path:portal/data/stable/iam/centralidp-postgres#replication-password>"
+            seeding:
+              enabled: true
+              initContainers:
+                - name: init-cx-central
+                  image: tractusx/portal-iam-consortia:v1.2.0
+                  imagePullPolicy: Always
+                  command:
+                    - sh
+                  args:
+                    - -c
+                    - |
+                      echo "Copying CX Central realm..."
+                      cp -R /import/catenax-central/stable/realms/* /app/realms
+                  volumeMounts:
+                  - name: realms
+                    mountPath: "app/realms"

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: stable-3.2
+  name: stable-23.12
 spec:
   destination:
     name: ''

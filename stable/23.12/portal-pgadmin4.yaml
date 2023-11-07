@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: portal-pgadmin4
+  namespace: argocd
+spec:
+  project: project-portal
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: product-portal
+  source:
+    repoURL: 'https://github.com/catenax-ng/product-portal-tools.git'
+    path: charts/pgadmin4
+    targetRevision: main
+    plugin:
+      env:
+        - name: HELM_VALUES
+          value: |
+            pgadmin4:
+              secret:
+                password: "<path:portal/data/stable/pgadmin4#password>"
+              env:
+                email: portal@catena-x.net
+              existingSecret: secret-pgadmin4
+              ingress:
+                enabled: true
+                ingressClassName: "nginx"
+                annotations:
+                hosts:
+                  - host: portal-pgadmin4-23-12.stable.demo.catena-x.net
+                    paths:
+                    - path: /
+                      pathType: Prefix
+                tls:
+                  - hosts:
+                    - portal-pgadmin4-23-12.stable.demo.catena-x.net
+                    secretName: tls-secret
