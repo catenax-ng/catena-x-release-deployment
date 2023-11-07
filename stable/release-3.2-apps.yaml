@@ -12,5 +12,3 @@ spec:
     repoURL: 'https://github.com/catenax-ng/catena-x-release-deployment'
     targetRevision: HEAD
   project: default
-  syncPolicy:
-    automated:
