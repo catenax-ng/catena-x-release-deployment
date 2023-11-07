@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: tx-edc-registry-stable-a
+  name: tx-edc-provider-stable-a
   namespace: argocd
 spec:
   project: project-traceability-foss

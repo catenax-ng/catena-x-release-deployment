@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ids-data-exchange-test-service.yaml
+  name: ids-data-exchange-test-service
   namespace: argocd
 spec:
   project: project-essential-services
