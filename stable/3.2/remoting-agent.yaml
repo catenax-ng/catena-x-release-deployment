@@ -10,9 +10,100 @@ spec:
     namespace: product-knowledge
   source:
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
-    targetRevision: 1.9.8
     chart: remoting-agent
-    helm:
-      parameters:
-        - name: image.pullPolicy
-          value: Always
+    targetRevision: 1.9.8
+    plugin:
+      env:
+        - name: HELM_VALUES
+          value: |
+            image:
+              pullPolicy: Always
+            repositories:
+              prognosis: |
+                #
+                # Rdf4j configuration for prognosis/lifetime remoting
+                #
+                @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+                @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+                @prefix rep: <http://www.openrdf.org/config/repository#>.
+                @prefix sr: <http://www.openrdf.org/config/repository/sail#>.
+                @prefix sail: <http://www.openrdf.org/config/sail#>.
+                @prefix sp: <http://spinrdf.org/sp#>.
+                @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+                @prefix json: <https://json-schema.org/draft/2020-12/schema#> .
+                @prefix dcterms: <http://purl.org/dc/terms/> .
+                @prefix cx-fx: <https://w3id.org/catenax/ontology/function#>.
+                @prefix cx-common: <https://w3id.org/catenax/ontology/common#>.
+                @prefix cx-prognosis: <https://w3id.org/catenax/ontology/prognosis#>.
+                @prefix cx-lifetime: <https://w3id.org/catenax/ontology/lifetime#>.
+                @prefix cx-health: <https://w3id.org/catenax/ontology/health#>.
+                @prefix cx-rt: <https://w3id.org/catenax/ontology/remoting#>.
+                @prefix cx-rul: <https://w3id.org/catenax/ontology/rul#>.
+
+                [] rdf:type rep:Repository ;
+                  rep:repositoryID "prognosis" ;
+                  rdfs:label "Prognosis Functions" ;
+                  rep:repositoryImpl [
+                      rep:repositoryType "openrdf:SailRepository" ;
+                      sr:sailImpl [
+                        sail:sailType "org.eclipse.tractusx.agents:Remoting" ;
+                        cx-fx:callbackAddress <http://localhost:8888/callback>;
+                        cx-fx:supportsInvocation cx-rt:Test;
+                        cx-fx:supportsInvocation cx-prognosis:Prognosis;
+                      ]
+                  ].
+
+                #
+                # Simple Test Function against internal Java logic
+                #
+
+                cx-rt:Test rdf:type cx-fx:Function;
+                  cx-fx:targetUri "class:org.eclipse.tractusx.agents.remoting.test.TestFunction#test";
+                  cx-fx:input cx-rt:input-1;
+                  cx-fx:input cx-rt:input-2;
+                  cx-fx:result cx-rt:TestResult.
+
+                cx-rt:TestResult rdf:type cx-fx:Result;
+                  cx-fx:output cx-rt:output.
+
+                cx-rt:input-1 rdf:type cx-fx:Argument;
+                  cx-fx:argumentName "arg0".
+
+                cx-rt:input-2 rdf:type cx-fx:Argument;
+                  cx-fx:argumentName "arg1".
+
+                cx-rt:output rdf:type cx-fx:ReturnValue;
+                  cx-fx:valuePath "";
+                  cx-fx:dataType xsd:int.
+
+                #
+                # Remote Test Function against public service
+                #
+
+                cx-prognosis:Prognosis rdf:type cx-fx:Function;
+                  dcterms:description "Prognosis is a sample simulation function with input and output bindings."@en ;
+                  dcterms:title "Prognosis" ;
+                  cx-fx:targetUri "https://api.agify.io";
+                  cx-fx:input cx-prognosis:name;
+                  cx-fx:result cx-prognosis:hasResult.
+
+                cx-prognosis:hasResult rdf:type cx-fx:Result;
+                  cx-fx:output cx-prognosis:prediction;
+                  cx-fx:output cx-prognosis:support.
+
+                cx-prognosis:name rdf:type cx-fx:Argument;
+                  dcterms:description "Name is an argument to the Prognosis function."@en ;
+                  dcterms:title "Name";
+                  cx-fx:argumentName "name".
+
+                cx-prognosis:prediction rdf:type cx-fx:ReturnValue;
+                  dcterms:description "Prediction (Value) is an integer-based output of the Prognosis function."@en ;
+                  dcterms:title "Prediction" ;
+                  cx-fx:valuePath "age";
+                  cx-fx:dataType xsd:int.
+
+                cx-prognosis:support rdf:type cx-fx:ReturnValue;
+                  dcterms:description "Support (Value) is another integer-based output of the Prognosis function."@en ;
+                  dcterms:title "Support" ;
+                  cx-fx:valuePath "count";
+                  cx-fx:dataType xsd:int.

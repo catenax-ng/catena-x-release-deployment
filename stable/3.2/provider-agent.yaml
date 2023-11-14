@@ -12,19 +12,61 @@ spec:
     repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
     targetRevision: 1.9.8
     chart: provisioning-agent
-    helm:
-      parameters:
-        - name: securityContext.readOnlyRootFilesystem
-          value: 'false'
-        - name: securityContext.runAsUser
-          value: '999'
-        - name: securityContext.runAsGroup
-          value: '999'
-        - name: podSecurityContext.runAsUser
-          value: '999'
-        - name: podSecurityContext.runAsGroup
-          value: '999'
-        - name: podSecurityContext.fsGroup
-          value: '999'
-        - name: bindings.dtc.mappping
-          value: "[PrefixDeclaration]\ncx-common:          https://w3id.org/catenax/ontology/common#\ncx-core:            https://w3id.org/catenax/ontology/core#\ncx-vehicle:         https://w3id.org/catenax/ontology/vehicle#\ncx-reliability:     https://w3id.org/catenax/ontology/reliability#\nuuid:\t\t        urn:uuid:\nbpnl:\t\t        bpn:legal:\nowl:\t\t        http://www.w3.org/2002/07/owl#\nrdf:\t\t        http://www.w3.org/1999/02/22-rdf-syntax-ns#\nxml:\t\t        http://www.w3.org/XML/1998/namespace\nxsd:\t\t        http://www.w3.org/2001/XMLSchema#\njson:               https://json-schema.org/draft/2020-12/schema#\nobda:\t\t        https://w3id.org/obda/vocabulary#\nrdfs:\t\t        http://www.w3.org/2000/01/rdf-schema#\noem:                urn:oem:\n\n[MappingDeclaration] @collection [[\nmappingId\tdtc-meta\ntarget\t\tbpnl:{bpnl} rdf:type cx-common:BusinessPartner ; cx-core:id {bpnl}^^xsd:string . \nsource\t\tSELECT distinct \"bpnl\" FROM \"dtc\".\"meta\"\n\nmappingId\tdtc-content\ntarget\t\toem:Analysis/{id} rdf:type cx-reliability:Analysis ; cx-core:id {code}^^xsd:string ; cx-core:name {description}^^xsd:string .\nsource\t\tSELECT * FROM \"dtc\".\"content\"\n\nmappingId\tdtc-part\ntarget\t\toem:Part/{entityGuid} rdf:type cx-vehicle:Part ; cx-core:id {enDenomination}^^xsd:string ; cx-core:name {classification}^^xsd:string .\nsource\t\tSELECT * FROM \"dtc\".\"part\"\n\nmappingId\tdtc-meta-part\ntarget\t\toem:Part/{entityGuid} cx-vehicle:manufacturer bpnl:{bpnl}. \nsource\t\tSELECT \"bpnl\",\"entityGuid\" FROM \"dtc\".\"part\"\n\nmappingId\tdtc-part-content\ntarget\t\toem:Analysis/{dtc_id} cx-reliability:analysedObject oem:Part/{part_entityGuid}. \nsource\t\tSELECT \"part_entityGuid\",\"dtc_id\" FROM \"dtc\".\"content_part\"\n\n]]\n"
+    plugin:
+      env:
+        - name: HELM_VALUES
+          value: |
+            securityContext:
+              readOnlyRootFilesystem: false
+              runAsUser: 999
+              runAsGroup: 999
+              runAsUser: 999
+            podSecurityContext:
+              runAsGroup: 999
+              fsGroup: 999
+            bindings:
+              dtc:
+                port: 8080
+                settings:
+                    jdbc.url: "jdbc:h2:file:/opt/ontop/database/db;INIT=RUNSCRIPT FROM '/opt/ontop/data/dtc.sql'"
+                    jdbc.driver: "org.h2.Driver"
+                    ontop.cardinalityMode: "LOOSE"
+                mapping: |
+                  [PrefixDeclaration]
+                  cx-common:          https://w3id.org/catenax/ontology/common#
+                  cx-core:            https://w3id.org/catenax/ontology/core#
+                  cx-vehicle:         https://w3id.org/catenax/ontology/vehicle#
+                  cx-reliability:     https://w3id.org/catenax/ontology/reliability#
+                  uuid:               urn:uuid:
+                  bpnl:               bpn:legal:
+                  owl:                http://www.w3.org/2002/07/owl#
+                  rdf:                http://www.w3.org/1999/02/22-rdf-syntax-ns#
+                  xml:                http://www.w3.org/XML/1998/namespace
+                  xsd:                http://www.w3.org/2001/XMLSchema#
+                  json:               https://json-schema.org/draft/2020-12/schema#
+                  obda:               https://w3id.org/obda/vocabulary#
+                  rdfs:               http://www.w3.org/2000/01/rdf-schema#
+                  oem:                urn:oem:
+
+                  [MappingDeclaration] @collection [[
+                    mappingId dtc-meta
+                    target    bpnl:{bpnl} rdf:type cx-common:BusinessPartner ; cx-core:id {bpnl}^^xsd:string .
+                    source    SELECT distinct "bpnl" FROM "dtc"."meta"
+
+                    mappingId dtc-content
+                    target    oem:Analysis/{id} rdf:type cx-reliability:Analysis ; cx-core:id {code}^^xsd:string ; cx-core:name {description}^^xsd:string .
+                    source    SELECT * FROM "dtc"."content"
+
+                    mappingId dtc-part
+                    target    oem:Part/{entityGuid} rdf:type cx-vehicle:Part ; cx-core:id {enDenomination}^^xsd:string ; cx-core:name {classification}^^xsd:string .
+                    source    SELECT * FROM "dtc"."part"
+
+                    mappingId dtc-meta-part
+                    target    oem:Part/{entityGuid} cx-vehicle:manufacturer bpnl:{bpnl}.
+                    source    SELECT "bpnl","entityGuid" FROM "dtc"."part"
+
+                    mappingId dtc-part-content
+                    target    oem:Analysis/{dtc_id} cx-reliability:analysedObject oem:Part/{part_entityGuid}.
+                    source    SELECT "part_entityGuid","dtc_id" FROM "dtc"."content_part"
+
+                  ]]
