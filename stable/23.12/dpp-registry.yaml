@@ -1,0 +1,63 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dpp-registry
+  namespace: argocd
+spec:
+  project: project-material-pass
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: product-material-pass
+  source:
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 0.3.15
+    chart: registry
+    helm:
+      values: >-
+        provider-dtr:
+          registry:
+            host: materialpass-23-12.stable.demo.catena-x.net
+            ## If 'authentication' is set to false, no OAuth authentication is enforced
+            authentication: false
+            # Issuer url for the dtr (resource server),
+            # make sure that the url points to an externally resolvable hostname.
+            # If no value is committed, and the integrated Keycloak is enabled,
+            # the K8s internal service name is used, which is a problem, when
+            # validating the issuer claim in an access token
+            idpIssuerUri: https://centralidp-23-12.stable.demo.catena-x.net/auth/realms/CX-Central
+            idpClientId: Cl13-CX-Battery
+            tenantId: default-tenant
+            dataSource:
+              driverClassName: org.postgresql.Driver
+              sqlInitPlatform: pg
+              ## The url, user, and password parameter will be ignored if 'enablePostgres' is set to true.
+              ## In that case the postgresql auth parameters are used.
+              url: jdbc:postgresql://registry:5432
+              user: default-user
+              password: password
+            ingress:
+              enabled: true
+              tls: true
+              urlPrefix: /semantics/registry
+              className: nginx
+              annotations:
+                # Add annotations for the ingress, e.g.:
+                cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
+                nginx.ingress.kubernetes.io/rewrite-target: /$2
+                nginx.ingress.kubernetes.io/use-regex: "true"
+                nginx.ingress.kubernetes.io/enable-cors: "true"
+                nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+                nginx.ingress.kubernetes.io/x-forwarded-prefix: /semantics/registry
+
+            # enables the default postgres database
+            enablePostgres: true
+            # enables the default keycloak identity provider
+            # relies on a postgres instance
+            enableKeycloak: false
+
+          postgresql:
+            auth:
+              username: default-user
+              password: password
+              database: default-database
+

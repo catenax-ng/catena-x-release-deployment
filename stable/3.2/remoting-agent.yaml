@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: remoting-agent
+  namespace: argocd
+spec:
+  project: project-knowledge
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: product-knowledge
+  source:
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 1.9.8
+    chart: remoting-agent
+    helm:
+      parameters:
+        - name: image.pullPolicy
+          value: Always

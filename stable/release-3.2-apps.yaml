@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: stable-3.2
+spec:
+  destination:
+    name: ''
+    namespace: argocd
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: 'stable/3.2'
+    repoURL: 'https://github.com/catenax-ng/catena-x-release-deployment'
+    targetRevision: HEAD
+  project: default

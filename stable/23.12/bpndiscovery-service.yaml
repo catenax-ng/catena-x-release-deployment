@@ -1,0 +1,63 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bpndiscovery-service
+  namespace: argocd
+spec:
+  project: project-semantics
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: product-semantics
+  source:
+    repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+    targetRevision: 0.1.11
+    chart: bpndiscovery
+    plugin:
+      env:
+        - name: HELM_VALUES
+          value: |
+            bpndiscovery:
+              enablePostgres: true
+              image:
+                imagePullPolicy: IfNotPresent
+              replicaCount: 1
+              containerPort: 4243
+              host: semantics-23-12.stable.demo.catena-x.net
+              ## If 'authentication' is set to false, no OAuth authentication is enforced
+              authentication: true
+              idp:
+                issuerUri: "https://centralidp-23-12.stable.demo.catena-x.net/auth/realms/CX-Central"
+                publicClientId: '<path:semantics/data/authentication#idpClientIdBpnDiscovery>'
+                bpnIdClaimName: bpn
+              ## Needed for the self-registration on discovery-finder
+              bpndiscoveryEndpoint:
+                allowedTypes: oen,wmi,passtype,manufacturerPartId
+                description: Service to discover BPN for different kind of type numbers
+                endpointAddress: https://semantics-23-12.stable.demo.catena-x.net/bpndiscovery
+                documentation: https://semantics-23-12.stable.demo.catena-x.net/bpndiscovery/swagger-ui/index.html
+              ## Configure discoveryFinderClient to register the bpn-discovery on discovery-finder.Properties needed for spring-security config.
+              discoveryfinderClient:
+                baseUrl: https://semantics-23-12.stable.demo.catena-x.net/discoveryfinder
+                registration:
+                  clientId: '<path:semantics/data/authentication#discoveryFinder-technical-user>'
+                  clientSecret: '<path:semantics/data/authentication#discoveryFinder-technical-user-password-stable>'
+                  authorizationGrantType: client_credentials
+                schedulerCronFrequency: "0 0 */1 * * *"
+                provider:
+                  tokenUri: https://centralidp-23-12.stable.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+              dataSource:
+                driverClassName: org.postgresql.Driver
+                sqlInitPlatform: pg
+                ## The url, user, and password parameter will be ignored if 'enablePostgres' is set to true.
+                ## In that case the postgresql auth parameters are used.
+                url: jdbc:postgresql://semantic-services-postgresql:5432/bpndiscovery
+                user: catenax
+                password: '<path:semantics/data/authentication#dbpassword>'
+              ingress:
+                enabled: true
+                tls: true
+              postgresql:
+                auth:
+                  username: catenax
+                  password: '<path:semantics/data/authentication#dbpassword>'
+                  database: bpndiscovery
